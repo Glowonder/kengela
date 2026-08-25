@@ -1,0 +1,1425 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Kengela — Observer. Localiser. Documenter.</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0F231D;
+    --surface:#153229;
+    --surface-2:#1B3D32;
+    --paper:#EFE9D8;
+    --paper-dim:#E3DCC6;
+    --ink:#0F1B16;
+    --ink-soft:#3E4C45;
+    --clay:#C9793A;
+    --clay-dark:#A85F28;
+    --river:#3E8FA6;
+    --line:rgba(239,233,216,0.14);
+    --g-faible:#4C9A6B;
+    --g-moderee:#D9932E;
+    --g-elevee:#C9502F;
+    --g-critique:#8A2A4A;
+    --radius:14px;
+    --shadow:0 12px 30px rgba(0,0,0,0.35);
+    font-family:'Inter',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{height:100%;}
+  body{
+    margin:0;background:var(--bg);color:var(--paper);
+    -webkit-font-smoothing:antialiased;
+    display:flex;justify-content:center;
+  }
+  #app{
+    width:100%;max-width:480px;min-height:100vh;
+    background:var(--bg);position:relative;
+    display:flex;flex-direction:column;
+    box-shadow:var(--shadow);
+    overflow:hidden;
+  }
+  .display{font-family:'Archivo Black',sans-serif;letter-spacing:0.01em;}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+
+  /* ---- top bar ---- */
+  header.topbar{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:16px 18px 14px;
+    background:linear-gradient(180deg,var(--surface),var(--bg));
+    border-bottom:1px solid var(--line);
+    position:sticky;top:0;z-index:20;
+  }
+  .brand{display:flex;align-items:center;gap:10px;}
+  .brand .mark{
+    width:34px;height:34px;border-radius:50%;
+    background:var(--clay);display:flex;align-items:center;justify-content:center;
+    font-family:'Archivo Black',sans-serif;color:var(--ink);font-size:15px;
+    transform:rotate(-6deg);
+  }
+  .brand .txt .name{font-size:18px;line-height:1;}
+  .brand .txt .tag{font-size:10px;color:#B9CFC5;letter-spacing:0.08em;text-transform:uppercase;margin-top:3px;}
+  .status-pill{
+    font-family:'IBM Plex Mono',monospace;font-size:10px;padding:5px 9px;border-radius:20px;
+    border:1px solid var(--line);color:#B9CFC5;display:flex;align-items:center;gap:6px;
+  }
+  .status-pill .dot{width:6px;height:6px;border-radius:50%;background:var(--g-faible);}
+  .status-pill.off .dot{background:var(--clay);}
+
+  /* ---- main scroll area ---- */
+  main{flex:1;overflow-y:auto;position:relative;padding-bottom:86px;}
+  .view{display:none;}
+  .view.active{display:block;}
+
+  /* ---- carte view ---- */
+  #map{width:100%;height:46vh;min-height:280px;background:#0c1a15;}
+  .map-toolbar{
+    display:flex;gap:8px;padding:12px 14px;overflow-x:auto;
+    background:var(--surface);border-bottom:1px solid var(--line);
+  }
+  .chip{
+    flex:0 0 auto;font-size:12px;padding:7px 12px;border-radius:20px;
+    border:1px solid var(--line);color:var(--paper);background:transparent;cursor:pointer;
+    display:flex;align-items:center;gap:6px;white-space:nowrap;
+  }
+  .chip.active{background:var(--clay);border-color:var(--clay);color:var(--ink);font-weight:600;}
+
+  .section-title{
+    font-family:'Archivo Black',sans-serif;font-size:13px;letter-spacing:0.03em;
+    text-transform:uppercase;color:#B9CFC5;padding:18px 18px 8px;
+  }
+  .stamp{
+    display:inline-flex;align-items:center;gap:6px;
+    font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.06em;
+    border:1.5px dashed var(--clay);color:var(--clay);padding:3px 8px;border-radius:6px;
+    transform:rotate(-1.5deg);text-transform:uppercase;
+  }
+
+  .feed{padding:0 14px 4px;display:flex;flex-direction:column;gap:10px;}
+  .card{
+    background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+    padding:12px;display:flex;gap:12px;cursor:pointer;transition:transform .12s ease;
+  }
+  .card:active{transform:scale(0.985);}
+  .card .thumb{
+    width:64px;height:64px;border-radius:10px;object-fit:cover;flex:0 0 auto;background:var(--surface-2);
+  }
+  .card .body{flex:1;min-width:0;}
+  .card .row1{display:flex;justify-content:space-between;gap:8px;align-items:flex-start;}
+  .card .cat{font-size:13px;font-weight:700;color:var(--paper);}
+  .card .grav{font-size:15px;}
+  .card .meta{font-size:11px;color:#93A79D;margin-top:3px;font-family:'IBM Plex Mono',monospace;}
+  .card .comment{font-size:12px;color:#CFE0D6;margin-top:6px;line-height:1.35;
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+  .badge{
+    font-size:9px;padding:3px 7px;border-radius:20px;font-weight:700;letter-spacing:0.03em;
+    text-transform:uppercase;display:inline-block;
+  }
+  .badge.st-Signalé{background:#4A3A22;color:#F0C878;}
+  .badge.st-En-vérification{background:#3A3320;color:#E0B84E;}
+  .badge.st-Confirmé{background:#22394A;color:#7FC4F0;}
+  .badge.st-Pris-en-charge{background:#3A2244;color:#D79AF0;}
+  .badge.st-Résolu{background:#204A2E;color:#7FE0A0;}
+
+  /* ---- FAB & bottom nav ---- */
+  nav.bottomnav{
+    position:absolute;bottom:0;left:0;right:0;height:74px;
+    background:var(--surface);border-top:1px solid var(--line);
+    display:flex;align-items:center;justify-content:space-around;
+    z-index:30;
+  }
+  .navbtn{
+    background:none;border:none;color:#8FA69B;display:flex;flex-direction:column;
+    align-items:center;gap:3px;font-size:10px;font-family:'Inter';cursor:pointer;
+    padding:6px 10px;letter-spacing:0.02em;
+  }
+  .navbtn.active{color:var(--paper);}
+  .navbtn .ic{font-size:19px;}
+  .fab{
+    width:58px;height:58px;border-radius:50%;background:var(--clay);
+    display:flex;align-items:center;justify-content:center;font-size:24px;
+    box-shadow:0 8px 20px rgba(201,121,58,0.5);border:4px solid var(--bg);
+    margin-top:-30px;color:var(--ink);cursor:pointer;
+  }
+
+  /* ---- generic panel / modal ---- */
+  .sheet-overlay{
+    position:absolute;inset:0;background:rgba(6,14,11,0.72);z-index:50;
+    display:none;align-items:flex-end;justify-content:center;
+  }
+  .sheet-overlay.active{display:flex;}
+  .sheet{
+    background:var(--paper);color:var(--ink);width:100%;max-height:92vh;
+    border-radius:20px 20px 0 0;overflow-y:auto;
+    display:flex;flex-direction:column;
+    animation:slideup .22s ease-out;
+  }
+  @keyframes slideup{from{transform:translateY(24px);opacity:.4}to{transform:translateY(0);opacity:1}}
+  .sheet-head{
+    position:sticky;top:0;background:var(--paper);z-index:5;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:16px 18px 10px;border-bottom:1px solid rgba(15,27,22,0.1);
+  }
+  .sheet-head h2{margin:0;font-family:'Archivo Black';font-size:16px;flex:1;text-align:center;}
+  .closebtn, .backbtn{
+    width:32px;height:32px;border-radius:50%;border:none;background:rgba(15,27,22,0.08);
+    font-size:16px;cursor:pointer;color:var(--ink);flex:0 0 auto;
+    display:flex;align-items:center;justify-content:center;transition:transform .1s ease, background .15s ease;
+  }
+  .closebtn:active, .backbtn:active{transform:scale(0.88);background:rgba(15,27,22,0.16);}
+  .backbtn{font-size:18px;}
+  .drag-handle{
+    width:38px;height:4px;border-radius:3px;background:rgba(15,27,22,0.18);
+    margin:9px auto 0;flex:0 0 auto;
+  }
+  .sheet-body{padding:16px 18px 28px;}
+
+  /* progress dots */
+  .progress{display:flex;gap:5px;padding:0 18px 10px;}
+  .progress span{flex:1;height:4px;border-radius:3px;background:rgba(15,27,22,0.12);}
+  .progress span.done{background:var(--clay);}
+
+  .step-title{font-family:'Archivo Black';font-size:19px;margin:4px 0 4px;}
+  .step-sub{font-size:13px;color:var(--ink-soft);margin-bottom:16px;line-height:1.4;}
+
+  .bigbtn{
+    display:block;width:100%;padding:15px;border-radius:12px;border:none;
+    background:var(--clay);color:#1a1005;font-weight:800;font-size:14px;
+    cursor:pointer;text-align:center;
+  }
+  .bigbtn:disabled{opacity:0.4;cursor:not-allowed;}
+  .ghostbtn{
+    display:block;width:100%;padding:13px;border-radius:12px;
+    border:1.5px solid rgba(15,27,22,0.18);background:transparent;color:var(--ink);
+    font-weight:600;font-size:13px;cursor:pointer;text-align:center;margin-top:8px;
+  }
+
+  .gpsbox{
+    display:flex;align-items:center;gap:10px;background:rgba(62,143,166,0.12);
+    border:1px solid rgba(62,143,166,0.35);border-radius:12px;padding:12px;margin-bottom:16px;
+  }
+  .gpsbox .ic{font-size:20px;}
+  .gpsbox .lat{font-family:'IBM Plex Mono';font-size:12px;color:#1F5B73;}
+  .gpsbox .lbl{font-size:11px;color:var(--ink-soft);}
+
+  .photozone{
+    border:2px dashed rgba(15,27,22,0.25);border-radius:14px;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    padding:26px 10px;text-align:center;gap:6px;cursor:pointer;margin-bottom:14px;
+    position:relative;overflow:hidden;min-height:140px;
+  }
+  .photozone img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+  .photozone .hint{font-size:12px;color:var(--ink-soft);}
+  .photozone .icon{font-size:26px;}
+
+  .catgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px;}
+  .catgroup{margin-bottom:14px;}
+  .catgroup h4{font-size:11px;text-transform:uppercase;letter-spacing:0.05em;color:var(--ink-soft);margin:0 0 8px;}
+  .catbtn{
+    padding:11px 10px;border-radius:10px;border:1.5px solid rgba(15,27,22,0.14);
+    background:#fff;font-size:12.5px;text-align:left;cursor:pointer;color:var(--ink);
+  }
+  .catbtn.sel{border-color:var(--clay);background:rgba(201,121,58,0.12);font-weight:700;}
+
+  textarea.commentbox{
+    width:100%;border-radius:12px;border:1.5px solid rgba(15,27,22,0.16);
+    padding:12px;font-size:13.5px;font-family:'Inter';resize:vertical;min-height:90px;
+  }
+
+  .gravrow{display:flex;flex-direction:column;gap:8px;}
+  .gravopt{
+    display:flex;align-items:flex-start;gap:10px;border:1.5px solid rgba(15,27,22,0.14);
+    border-radius:12px;padding:12px;cursor:pointer;background:#fff;
+  }
+  .gravopt.sel{border-color:var(--clay);background:rgba(201,121,58,0.1);}
+  .gravopt .e{font-size:19px;}
+  .gravopt .t{font-weight:700;font-size:13px;}
+  .gravopt .d{font-size:11.5px;color:var(--ink-soft);margin-top:2px;}
+
+  .reviewrow{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid rgba(15,27,22,0.08);font-size:13px;}
+  .reviewrow b{font-weight:700;}
+
+  /* fiche */
+  .fiche-photo{width:100%;height:200px;object-fit:cover;border-radius:14px;margin-bottom:14px;background:var(--surface-2);}
+  .fiche-id{font-family:'IBM Plex Mono';font-size:11px;color:var(--ink-soft);}
+  .fiche-title{font-family:'Archivo Black';font-size:18px;margin:4px 0 8px;}
+  .fiche-meta{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;}
+  .fiche-comment{font-size:13.5px;line-height:1.5;background:rgba(15,27,22,0.04);padding:12px;border-radius:12px;margin-bottom:16px;}
+  .confidence{display:flex;align-items:center;gap:8px;font-size:11.5px;color:var(--ink-soft);margin-bottom:16px;}
+  .confidence .lv{background:#22394A;color:#7FC4F0;padding:3px 8px;border-radius:20px;font-weight:700;}
+
+  .timeline{margin:0;padding:0 0 0 14px;border-left:2px solid rgba(15,27,22,0.14);}
+  .tlitem{position:relative;padding:0 0 16px 16px;}
+  .tlitem::before{content:'';position:absolute;left:-21px;top:2px;width:9px;height:9px;border-radius:50%;background:var(--clay);}
+  .tlitem .d{font-family:'IBM Plex Mono';font-size:10.5px;color:var(--ink-soft);}
+  .tlitem .l{font-size:12.5px;margin-top:2px;}
+
+  .confirmrow{display:flex;gap:8px;margin:14px 0 4px;}
+  .confbtn{flex:1;padding:10px;border-radius:10px;border:1.5px solid rgba(15,27,22,0.16);background:#fff;font-size:12px;font-weight:700;cursor:pointer;}
+  .confbtn.picked{background:var(--river);border-color:var(--river);color:#fff;}
+  .confcount{font-size:11px;color:var(--ink-soft);margin-top:8px;text-align:center;}
+
+  /* travaux list */
+  .proj-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:14px;margin:0 14px 12px;}
+  .proj-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;}
+  .proj-top .name{font-weight:700;font-size:14px;}
+  .proj-top .city{font-size:11px;color:#93A79D;font-family:'IBM Plex Mono';margin-top:2px;}
+  .bar-track{height:7px;background:var(--surface-2);border-radius:6px;margin:10px 0 6px;overflow:hidden;}
+  .bar-fill{height:100%;background:var(--clay);}
+  .proj-foot{display:flex;justify-content:space-between;font-size:11px;color:#93A79D;}
+  .star{cursor:pointer;font-size:16px;}
+
+  .empty{padding:30px 20px;text-align:center;color:#8FA69B;font-size:13px;}
+
+  .radiusrow{display:flex;gap:8px;padding:0 14px 12px;}
+  .rchip{flex:1;text-align:center;padding:8px;border-radius:10px;border:1px solid var(--line);font-size:12px;cursor:pointer;color:var(--paper);}
+  .rchip.active{background:var(--river);border-color:var(--river);font-weight:700;}
+
+  .around-summary{display:flex;gap:10px;padding:0 14px 14px;}
+  .around-summary .box{flex:1;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px;text-align:center;}
+  .around-summary .box .n{font-family:'Archivo Black';font-size:20px;}
+  .around-summary .box .l{font-size:10px;color:#93A79D;text-transform:uppercase;letter-spacing:0.04em;margin-top:2px;}
+
+  .toast{
+    position:absolute;bottom:96px;left:50%;transform:translateX(-50%);
+    background:var(--ink);color:var(--paper);padding:10px 16px;border-radius:30px;
+    font-size:12.5px;z-index:80;box-shadow:0 8px 20px rgba(0,0,0,0.4);
+    display:none;white-space:nowrap;
+  }
+  .toast.show{display:block;animation:fadeup .25s ease-out;}
+  @keyframes fadeup{from{opacity:0;transform:translate(-50%,8px)}to{opacity:1;transform:translate(-50%,0)}}
+
+  .leaflet-popup-content-wrapper{border-radius:10px;font-family:'Inter';font-size:12.5px;}
+
+  ::-webkit-scrollbar{width:0;height:0;}
+
+  /* ---- boutons : retour tactile ---- */
+  .bigbtn, .ghostbtn, .chip, .navbtn, .fab, .card, .catbtn, .gravopt, .confbtn, .rchip{
+    transition:transform .1s ease, background .15s ease, opacity .15s ease;
+  }
+  .bigbtn:active, .fab:active{transform:scale(0.97);}
+  .catbtn:active, .gravopt:active, .confbtn:active, .rchip:active{transform:scale(0.96);}
+
+  /* ---- barre de recherche ---- */
+  .searchbar{
+    display:flex;align-items:center;gap:8px;margin:12px 14px 4px;
+    background:var(--surface);border:1px solid var(--line);border-radius:12px;
+    padding:9px 12px;
+  }
+  .searchbar input{
+    flex:1;background:none;border:none;outline:none;color:var(--paper);font-size:13px;font-family:'Inter';
+  }
+  .searchbar input::placeholder{color:#6E8A7E;}
+  .searchbar .ic{font-size:14px;color:#8FA69B;}
+  .searchbar .clearx{cursor:pointer;color:#8FA69B;font-size:13px;padding:2px 4px;display:none;}
+  .searchbar.has-text .clearx{display:block;}
+
+  /* ---- icônes top bar ---- */
+  .topbar-actions{display:flex;align-items:center;gap:8px;}
+  .iconbtn{
+    width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:transparent;
+    color:var(--paper);font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  }
+  .iconbtn:active{transform:scale(0.9);background:rgba(239,233,216,0.08);}
+
+  /* ---- confirmations : état verrouillé ---- */
+  .confbtn.locked{opacity:0.45;pointer-events:none;}
+  .confbtn.picked.locked{opacity:1;}
+
+  /* ---- splash screen ---- */
+  #splash{
+    position:absolute;inset:0;z-index:200;background:radial-gradient(circle at 50% 30%, #1B3D32, var(--bg) 70%);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
+    transition:opacity .5s ease, visibility .5s ease;
+  }
+  #splash.hidden{opacity:0;visibility:hidden;pointer-events:none;}
+  .splash-mark{
+    width:78px;height:78px;border-radius:50%;background:var(--clay);color:var(--ink);
+    display:flex;align-items:center;justify-content:center;font-size:34px;
+    font-family:'Archivo Black';transform:rotate(-6deg);
+    box-shadow:0 14px 34px rgba(201,121,58,0.4);
+    animation:pulse 1.8s ease-in-out infinite;
+  }
+  @keyframes pulse{0%,100%{transform:rotate(-6deg) scale(1);}50%{transform:rotate(-6deg) scale(1.06);}}
+  .splash-name{font-size:26px;letter-spacing:0.03em;margin-top:18px;}
+  .splash-tag{font-size:11px;color:#9FC0B2;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:26px;}
+  .splash-loader{width:140px;height:4px;border-radius:3px;background:rgba(239,233,216,0.14);overflow:hidden;}
+  .splash-loader-bar{width:40%;height:100%;background:var(--clay);border-radius:3px;animation:load 1.1s ease-in-out infinite;}
+  @keyframes load{0%{transform:translateX(-100%);}100%{transform:translateX(350%);}}
+  .splash-msg{font-size:11.5px;color:#7FA396;margin-top:14px;font-family:'IBM Plex Mono';}
+
+  /* ---- badge notifications ---- */
+  .notif-dot{
+    position:absolute;top:-2px;right:-2px;width:9px;height:9px;border-radius:50%;
+    background:var(--clay);border:2px solid var(--surface);
+  }
+</style>
+</head>
+<body>
+<div id="app">
+
+  <header class="topbar">
+    <div class="brand">
+      <div class="mark">K</div>
+      <div class="txt">
+        <div class="name display">KENGELA</div>
+        <div class="tag">Observer · Localiser · Documenter</div>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <div class="status-pill" id="netPill"><span class="dot"></span><span id="netLbl">En ligne</span></div>
+      <button class="iconbtn" id="btnProfil" title="Mon profil" aria-label="Mon profil" style="position:relative;">👤</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- ================= CARTE ================= -->
+    <section class="view active" id="view-carte">
+      <div id="map"></div>
+      <div class="map-toolbar">
+        <button class="chip active" data-layer="danger">⚠️ Dangers</button>
+        <button class="chip active" data-layer="travaux">🏗️ Travaux</button>
+        <button class="chip active" data-layer="infra">🏢 Infrastructures</button>
+      </div>
+      <div class="searchbar" id="searchbar">
+        <span class="ic">🔎</span>
+        <input type="text" id="searchInput" placeholder="Rechercher un signalement, un lieu, une catégorie…">
+        <span class="clearx" id="searchClear">✕</span>
+      </div>
+      <div class="section-title">Activité récente <span class="stamp">démo — RDC</span></div>
+      <div class="feed" id="feed"></div>
+    </section>
+
+    <!-- ================= AUTOUR DE MOI ================= -->
+    <section class="view" id="view-autour">
+      <div class="section-title" style="padding-top:16px;">📍 Autour de moi</div>
+      <div class="radiusrow" id="radiusRow"></div>
+      <div class="around-summary" id="aroundSummary"></div>
+      <div class="feed" id="aroundFeed"></div>
+    </section>
+
+    <!-- ================= TRAVAUX ================= -->
+    <section class="view" id="view-travaux">
+      <div class="section-title" style="padding-top:16px;">🏗️ Travaux & chantiers <span class="stamp">données de démonstration</span></div>
+      <div id="projList"></div>
+    </section>
+  </main>
+
+  <nav class="bottomnav">
+    <button class="navbtn active" data-tab="carte"><span class="ic">🗺️</span>Explorer</button>
+    <button class="navbtn" data-tab="autour"><span class="ic">📍</span>Autour</button>
+    <div class="fab" id="btnSignaler">⚠️</div>
+    <button class="navbtn" data-tab="travaux"><span class="ic">🏗️</span>Travaux</button>
+    <button class="navbtn" data-tab="profil-nav"><span class="ic">👤</span>Profil</button>
+  </nav>
+
+  <div class="toast" id="toast"></div>
+
+  <!-- ============ SHEET: SIGNALER ============ -->
+  <div class="sheet-overlay" id="sheetSignaler">
+    <div class="sheet" id="sheetSignalerInner">
+      <div class="drag-handle"></div>
+      <div class="sheet-head">
+        <button class="backbtn" id="signalerBackBtn" title="Retour" aria-label="Retour">←</button>
+        <h2 id="signalerHeadTitle">Signaler</h2>
+        <button class="closebtn" data-close="sheetSignaler" title="Fermer" aria-label="Fermer">✕</button>
+      </div>
+      <div class="progress" id="signalerProgress"></div>
+      <div class="sheet-body" id="signalerBody"></div>
+    </div>
+  </div>
+
+  <!-- ============ SHEET: FICHE DANGER ============ -->
+  <div class="sheet-overlay" id="sheetFiche">
+    <div class="sheet">
+      <div class="drag-handle"></div>
+      <div class="sheet-head">
+        <button class="backbtn" data-close="sheetFiche" title="Retour" aria-label="Retour">←</button>
+        <h2>Fiche du signalement</h2>
+        <button class="closebtn" data-close="sheetFiche" title="Fermer" aria-label="Fermer">✕</button>
+      </div>
+      <div class="sheet-body" id="ficheBody"></div>
+    </div>
+  </div>
+
+  <!-- ============ SHEET: FICHE PROJET ============ -->
+  <div class="sheet-overlay" id="sheetProjet">
+    <div class="sheet">
+      <div class="drag-handle"></div>
+      <div class="sheet-head">
+        <button class="backbtn" data-close="sheetProjet" title="Retour" aria-label="Retour">←</button>
+        <h2>Fiche du projet</h2>
+        <button class="closebtn" data-close="sheetProjet" title="Fermer" aria-label="Fermer">✕</button>
+      </div>
+      <div class="sheet-body" id="projetBody"></div>
+    </div>
+  </div>
+
+  <!-- ============ SHEET: PROFIL ============ -->
+  <div class="sheet-overlay" id="sheetProfil">
+    <div class="sheet">
+      <div class="drag-handle"></div>
+      <div class="sheet-head">
+        <button class="backbtn" data-close="sheetProfil" title="Retour" aria-label="Retour">←</button>
+        <h2>Mon profil</h2>
+        <button class="closebtn" data-close="sheetProfil" title="Fermer" aria-label="Fermer">✕</button>
+      </div>
+      <div class="sheet-body" id="profilBody"></div>
+    </div>
+  </div>
+
+  <!-- ============ SPLASH ============ -->
+  <div id="splash">
+    <div class="splash-mark">K</div>
+    <div class="splash-name display">KENGELA</div>
+    <div class="splash-tag">Observer · Localiser · Documenter</div>
+    <div class="splash-loader"><div class="splash-loader-bar"></div></div>
+    <div class="splash-msg" id="splashMsg">Chargement des données du terrain…</div>
+  </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+(function(){
+
+/* ===================== STOCKAGE — COMPATIBILITÉ HORS CLAUDE.AI =====================
+   window.storage n'existe que dans l'interface Claude.ai. Quand ce fichier est ouvert
+   directement dans un navigateur (double-clic, hébergement statique, clé USB pour une
+   démonstration hors-ligne...), on fabrique ici un équivalent basé sur localStorage
+   (ou sur la mémoire si même localStorage est indisponible), pour que l'application
+   fonctionne de façon totalement autonome. */
+if(!window.storage){
+  let memoryStore = {};
+  let usesLocalStorage = false;
+  try{
+    localStorage.setItem('__kengela_test__','1');
+    localStorage.removeItem('__kengela_test__');
+    usesLocalStorage = true;
+  }catch(e){ usesLocalStorage = false; }
+
+  const STORE_KEY = 'kengela_local_storage_v1';
+  function readStore(){
+    if(!usesLocalStorage) return memoryStore;
+    try{ return JSON.parse(localStorage.getItem(STORE_KEY) || '{}'); }catch(e){ return {}; }
+  }
+  function writeStore(obj){
+    if(!usesLocalStorage){ memoryStore = obj; return; }
+    try{ localStorage.setItem(STORE_KEY, JSON.stringify(obj)); }catch(e){ /* quota dépassé, etc. */ }
+  }
+  function nsKey(key, shared){ return (shared ? 'shared:' : 'user:') + key; }
+
+  window.storage = {
+    async get(key, shared){
+      const store = readStore();
+      const k = nsKey(key, shared);
+      if(!(k in store)) return null;
+      return {key, value: store[k], shared: !!shared};
+    },
+    async set(key, value, shared){
+      const store = readStore();
+      store[nsKey(key, shared)] = value;
+      writeStore(store);
+      return {key, value, shared: !!shared};
+    },
+    async delete(key, shared){
+      const store = readStore();
+      const k = nsKey(key, shared);
+      const existed = k in store;
+      delete store[k];
+      writeStore(store);
+      return {key, deleted: existed, shared: !!shared};
+    },
+    async list(prefix, shared){
+      const store = readStore();
+      const pfx = nsKey(prefix || '', shared);
+      const keys = Object.keys(store).filter(k => k.startsWith(pfx)).map(k => k.slice(nsKey('', shared).length));
+      return {keys, prefix, shared: !!shared};
+    }
+  };
+}
+
+/* ===================== DONNÉES DE RÉFÉRENCE ===================== */
+const DANGER_CATS = {
+  "Environnement": ["Inondation","Érosion","Ravinement","Glissement de terrain","Pollution de l'eau","Pollution des sols","Déchets","Cours d'eau dangereux","Arbre dangereux","Zone exposée aux crues","Autre"],
+  "Infrastructures": ["Route dégradée","Trou dans la chaussée","Pont endommagé","Bâtiment dangereux","Effondrement","Chantier dangereux","Câble électrique dangereux","Canalisation endommagée","Éclairage public défaillant","Absence de signalisation","Autre"],
+  "Sécurité": ["Obstacle dangereux","Zone présentant un danger","Situation nécessitant une intervention","Autre"]
+};
+const TRAVAUX_TYPES = {
+  "Routes": ["Construction","Réhabilitation","Entretien","Drainage"],
+  "Ponts": ["Construction","Réhabilitation","Réparation"],
+  "Eau": ["Forage","Réseau d'eau","Canalisation","Station de traitement","Drainage"],
+  "Éducation": ["École","Université","Centre de formation"],
+  "Santé": ["Hôpital","Centre de santé","Maternité"],
+  "Énergie": ["Centrale","Réseau","Transformateur","Éclairage public"],
+  "Bâtiments": ["Bâtiment public","Bâtiment privé","Logement","Commerce","Industrie"],
+  "Autres": ["Autre"]
+};
+const GRAVITY = [
+  {key:'faible', emoji:'🟢', label:'Faible', desc:"Situation à surveiller, pas de risque immédiat.", color:'var(--g-faible)'},
+  {key:'moderee', emoji:'🟠', label:'Modérée', desc:"Gêne réelle, risque limité mais à corriger.", color:'var(--g-moderee)'},
+  {key:'elevee', emoji:'🔴', label:'Élevée', desc:"Danger sérieux pour les personnes ou les biens.", color:'var(--g-elevee)'},
+  {key:'critique', emoji:'🚨', label:'Critique', desc:"Danger immédiat, intervention urgente nécessaire.", color:'var(--g-critique)'}
+];
+const STATUSES = ['Signalé','En vérification','Confirmé','Pris en charge','Résolu'];
+const CITIES = [
+  {name:'Kinshasa', lat:-4.4419, lng:15.2663},
+  {name:'Lubumbashi', lat:-11.6609, lng:27.4794},
+  {name:'Goma', lat:-1.6792, lng:29.2228},
+  {name:'Kisangani', lat:0.5150, lng:25.1912},
+  {name:'Matadi', lat:-5.8166, lng:13.4500}
+];
+const PLACEHOLDER_IMG = "data:image/svg+xml;utf8," + encodeURIComponent(
+  `<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><rect width='100%' height='100%' fill='%231B3D32'/><text x='50%' y='50%' fill='%2393A79D' font-size='14' font-family='sans-serif' text-anchor='middle' dy='.3em'>photo</text></svg>`
+);
+
+/* ===================== ÉTAT ===================== */
+let reports = [];
+let projects = [];
+let followed = {};   // projet suivis, stocké localement (par utilisateur)
+let myReportIds = new Set(); // mes propres signalements, stocké localement (par utilisateur)
+let myConfirmations = {};    // { reportId: 'oui'|'non'|'ne_sais_pas' }, une seule réponse par personne
+let offlineQueue = [];
+let map, layerGroups = {danger:null, travaux:null, infra:null};
+let userPos = null;
+
+let draft = {}; // signalement en cours de création
+let step = 0;
+
+/* ===================== UTILS ===================== */
+function uid(prefix){ return prefix + '-' + Math.random().toString(36).slice(2,8).toUpperCase(); }
+function fmtDate(d){
+  const dt = new Date(d);
+  return dt.toLocaleDateString('fr-FR',{day:'2-digit',month:'short',year:'numeric'}) + ' · ' + dt.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+}
+function haversine(lat1,lng1,lat2,lng2){
+  const R=6371, toRad=x=>x*Math.PI/180;
+  const dLat=toRad(lat2-lat1), dLng=toRad(lng2-lng1);
+  const a=Math.sin(dLat/2)**2 + Math.cos(toRad(lat1))*Math.cos(toRad(lat2))*Math.sin(dLng/2)**2;
+  return R*2*Math.asin(Math.sqrt(a));
+}
+function nearestCity(lat,lng){
+  let best=null,bd=Infinity;
+  CITIES.forEach(c=>{const d=haversine(lat,lng,c.lat,c.lng); if(d<bd){bd=d;best=c;}});
+  return best ? (bd<3 ? best.name : `près de ${best.name}`) : 'RDC';
+}
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove('show'),2400);
+}
+function slug(s){return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-');}
+
+function compressImage(file, maxW){
+  return new Promise((resolve,reject)=>{
+    const reader = new FileReader();
+    reader.onload = e=>{
+      const img = new Image();
+      img.onload = ()=>{
+        const scale = Math.min(1, maxW/img.width);
+        const canvas = document.createElement('canvas');
+        canvas.width = img.width*scale; canvas.height = img.height*scale;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img,0,0,canvas.width,canvas.height);
+        resolve(canvas.toDataURL('image/jpeg',0.6));
+      };
+      img.onerror = reject;
+      img.src = e.target.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+/* ===================== STOCKAGE (simule le backend Kengela) ===================== */
+async function loadAll(){
+  try{
+    const idx = await window.storage.get('kengela:reports:index', true);
+    const ids = idx ? JSON.parse(idx.value) : [];
+    reports = [];
+    for(const id of ids){
+      try{ const r = await window.storage.get('kengela:report:'+id, true); if(r) reports.push(JSON.parse(r.value)); }catch(e){}
+    }
+  }catch(e){ reports = []; }
+
+  try{
+    const pidx = await window.storage.get('kengela:projects:index', true);
+    const pids = pidx ? JSON.parse(pidx.value) : [];
+    projects = [];
+    for(const id of pids){
+      try{ const p = await window.storage.get('kengela:project:'+id, true); if(p) projects.push(JSON.parse(p.value)); }catch(e){}
+    }
+  }catch(e){ projects = []; }
+
+  try{
+    const f = await window.storage.get('kengela:followed', false);
+    followed = f ? JSON.parse(f.value) : {};
+  }catch(e){ followed = {}; }
+
+  try{
+    const m = await window.storage.get('kengela:my_report_ids', false);
+    myReportIds = new Set(m ? JSON.parse(m.value) : []);
+  }catch(e){ myReportIds = new Set(); }
+
+  try{
+    const c = await window.storage.get('kengela:my_confirmations', false);
+    myConfirmations = c ? JSON.parse(c.value) : {};
+  }catch(e){ myConfirmations = {}; }
+
+  reports.forEach(r=> r.mine = myReportIds.has(r.id));
+
+  if(projects.length===0) await seedDemoData();
+}
+
+async function markAsMine(reportId){
+  myReportIds.add(reportId);
+  try{ await window.storage.set('kengela:my_report_ids', JSON.stringify([...myReportIds]), false); }catch(e){}
+}
+
+async function saveMyConfirmations(){
+  try{ await window.storage.set('kengela:my_confirmations', JSON.stringify(myConfirmations), false); }catch(e){}
+}
+
+async function saveReport(r){
+  reports.unshift(r);
+  try{
+    await window.storage.set('kengela:report:'+r.id, JSON.stringify(r), true);
+    const ids = reports.map(x=>x.id);
+    await window.storage.set('kengela:reports:index', JSON.stringify(ids), true);
+  }catch(e){ toast('Stockage indisponible — conservé localement pour cette session.'); }
+}
+async function updateReport(r){
+  try{ await window.storage.set('kengela:report:'+r.id, JSON.stringify(r), true); }catch(e){}
+}
+async function saveProject(p){
+  try{ await window.storage.set('kengela:project:'+p.id, JSON.stringify(p), true); }catch(e){}
+}
+async function saveFollowed(){
+  try{ await window.storage.set('kengela:followed', JSON.stringify(followed), false); }catch(e){}
+}
+
+async function seedDemoData(){
+  const seedProjects = [
+    {city:'Kinshasa', name:"Réhabilitation de l'avenue Kabinda", type:'Routes', sub:'Réhabilitation', maitre:'Office des Voiries et Drainage', entreprise:'SATEC-RDC', avancement:65, statut:'En construction'},
+    {city:'Lubumbashi', name:"Construction de l'école primaire Kamalondo", type:'Éducation', sub:'École', maitre:'Ministère de l\u2019EPST', entreprise:'BTP Katanga Sarl', avancement:40, statut:'En construction'},
+    {city:'Goma', name:"Réseau d'eau potable — quartier Majengo", type:'Eau', sub:'Réseau d\u2019eau', maitre:'REGIDESO', entreprise:'Hydro Kivu', avancement:80, statut:'En construction'},
+    {city:'Kisangani', name:"Réhabilitation du pont sur la Tshopo", type:'Ponts', sub:'Réhabilitation', maitre:'Office des Routes', entreprise:'Congo Infra', avancement:25, statut:'En construction'},
+    {city:'Matadi', name:"Centre de santé de référence de Nzanza", type:'Santé', sub:'Centre de santé', maitre:'Ministère de la Santé', entreprise:'Bâtir RDC', avancement:95, statut:'En construction'}
+  ];
+  for(const s of seedProjects){
+    const c = CITIES.find(c=>c.name===s.city);
+    const jitterLat = c.lat + (Math.random()-0.5)*0.05;
+    const jitterLng = c.lng + (Math.random()-0.5)*0.05;
+    const p = {
+      id: uid('PRJ'), demo:true,
+      name:s.name, city:s.city, lat:jitterLat, lng:jitterLng,
+      type:s.type, sub:s.sub, maitre:s.maitre, entreprise:s.entreprise,
+      dateDebut:'2026-02-10', dateFin:'2026-12-20', budget:'Non communiqué',
+      statut:s.statut, avancement:s.avancement,
+      observations:[
+        {date:'2026-06-02', label:'Signalement citoyen — début des travaux constaté sur site.'},
+        {date:'2026-07-18', label:'Nouvelle photo transmise — structure principale visible.'}
+      ]
+    };
+    projects.push(p);
+    await saveProject(p);
+  }
+  try{ await window.storage.set('kengela:projects:index', JSON.stringify(projects.map(p=>p.id)), true); }catch(e){}
+
+  const seedReports = [
+    {city:'Kinshasa', type:'danger', group:'Infrastructures', cat:'Trou dans la chaussée', gravity:'elevee', comment:"Important trou au milieu de la chaussée, dangereux pour les véhicules et les motos.", status:'En vérification'},
+    {city:'Goma', type:'danger', group:'Environnement', cat:'Érosion', gravity:'critique', comment:"Ravinement important qui menace deux maisons en contrebas.", status:'Signalé'},
+    {city:'Lubumbashi', type:'danger', group:'Infrastructures', cat:'Éclairage public défaillant', gravity:'moderee', comment:"Plusieurs lampadaires éteints depuis deux semaines sur l'avenue principale.", status:'Confirmé'}
+  ];
+  for(const s of seedReports){
+    const c = CITIES.find(c=>c.name===s.city);
+    const r = {
+      id: uid('KEN'), demo:true, kind:'danger',
+      group:s.group, category:s.cat, gravity:s.gravity, comment:s.comment,
+      photo:null, lat:c.lat+(Math.random()-0.5)*0.04, lng:c.lng+(Math.random()-0.5)*0.04,
+      date:'2026-08-1'+Math.floor(Math.random()*8), status:s.status,
+      confirmations:{oui:Math.floor(Math.random()*6),non:0,ne_sais_pas:0},
+      history:[{date:'2026-08-15', label:'Signalement citoyen.'}]
+    };
+    if(s.status!=='Signalé') r.history.push({date:'2026-08-17', label:'Signalement transmis pour vérification.'});
+    reports.push(r);
+    await saveReport(r);
+  }
+}
+
+/* ===================== CARTE ===================== */
+function initMap(){
+  map = L.map('map', {zoomControl:false, attributionControl:true}).setView([-2.5,23.5], 5.2);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution:'&copy; OpenStreetMap',
+    maxZoom:18
+  }).addTo(map);
+  layerGroups.danger = L.layerGroup().addTo(map);
+  layerGroups.travaux = L.layerGroup().addTo(map);
+  layerGroups.infra = L.layerGroup().addTo(map);
+}
+function gravColor(g){ return (GRAVITY.find(x=>x.key===g)||{}).color || '#C9793A'; }
+function pinIcon(color, emoji){
+  return L.divIcon({
+    className:'',
+    html:`<div style="width:30px;height:30px;border-radius:50% 50% 50% 0;background:${color};transform:rotate(-45deg);display:flex;align-items:center;justify-content:center;box-shadow:0 3px 8px rgba(0,0,0,.4);border:2px solid rgba(255,255,255,.85);">
+            <span style="transform:rotate(45deg);font-size:13px;">${emoji}</span>
+          </div>`,
+    iconSize:[30,30], iconAnchor:[15,29]
+  });
+}
+function renderMap(){
+  layerGroups.danger.clearLayers();
+  layerGroups.travaux.clearLayers();
+  layerGroups.infra.clearLayers();
+
+  reports.forEach(r=>{
+    const g = GRAVITY.find(x=>x.key===r.gravity) || GRAVITY[0];
+    const m = L.marker([r.lat,r.lng], {icon:pinIcon(replaceCssVar(g.color), g.emoji)});
+    m.on('click', ()=>openFiche(r.id));
+    m.addTo(layerGroups.danger);
+  });
+  projects.forEach(p=>{
+    const m = L.marker([p.lat,p.lng], {icon:pinIcon('#3E8FA6','🏗️')});
+    m.on('click', ()=>openProjet(p.id));
+    m.addTo(layerGroups.travaux);
+  });
+}
+function replaceCssVar(v){
+  const map = {'var(--g-faible)':'#4C9A6B','var(--g-moderee)':'#D9932E','var(--g-elevee)':'#C9502F','var(--g-critique)':'#8A2A4A'};
+  return map[v] || v;
+}
+
+document.querySelectorAll('.chip[data-layer]').forEach(chip=>{
+  chip.addEventListener('click', ()=>{
+    chip.classList.toggle('active');
+    const layer = chip.dataset.layer;
+    const group = layerGroups[layer];
+    if(!group) return;
+    if(chip.classList.contains('active')) map.addLayer(group); else map.removeLayer(group);
+  });
+});
+
+/* ===================== FEED ===================== */
+function statusClass(s){ return 'st-' + s.replace(/\s+/g,'-'); }
+function reportCard(r){
+  const g = GRAVITY.find(x=>x.key===r.gravity) || GRAVITY[0];
+  return `<div class="card" onclick="Kengela.openFiche('${r.id}')">
+      <img class="thumb" src="${r.photo || PLACEHOLDER_IMG}">
+      <div class="body">
+        <div class="row1">
+          <div class="cat">${r.category}</div>
+          <div class="grav">${g.emoji}</div>
+        </div>
+        <div class="meta">${r.id} · ${nearestCity(r.lat,r.lng)} · ${fmtDate(r.date)}</div>
+        <div class="comment">${escapeHtml(r.comment||'')}</div>
+        <span class="badge ${statusClass(r.status)}" style="margin-top:6px;">${r.status}</span>
+      </div>
+    </div>`;
+}
+function escapeHtml(s){ const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+
+function renderFeed(){
+  const feed = document.getElementById('feed');
+  if(reports.length===0){ feed.innerHTML = '<div class="empty">Aucun signalement pour le moment.<br>Soyez le premier à observer votre quartier.</div>'; return; }
+  let list = [...reports];
+  if(typeof searchQuery==='string' && searchQuery){
+    list = list.filter(r=>{
+      const hay = `${r.category} ${r.group} ${r.comment} ${nearestCity(r.lat,r.lng)} ${r.status}`.toLowerCase();
+      return hay.includes(searchQuery);
+    });
+  }
+  if(list.length===0){ feed.innerHTML = `<div class="empty">Aucun résultat pour « ${escapeHtml(searchQuery)} ».</div>`; return; }
+  const sorted = list.sort((a,b)=> new Date(b.date) - new Date(a.date));
+  feed.innerHTML = sorted.slice(0,30).map(reportCard).join('');
+}
+
+/* ===================== TRAVAUX ===================== */
+function projCard(p){
+  const followedIcon = followed[p.id] ? '⭐' : '☆';
+  return `<div class="proj-card" onclick="Kengela.openProjet('${p.id}')">
+    <div class="proj-top">
+      <div>
+        <div class="name">${p.name}</div>
+        <div class="city">${p.city} · ${p.type} — ${p.sub}</div>
+      </div>
+      <span class="star" onclick="event.stopPropagation();Kengela.toggleFollow('${p.id}')">${followedIcon}</span>
+    </div>
+    <div class="bar-track"><div class="bar-fill" style="width:${p.avancement}%"></div></div>
+    <div class="proj-foot"><span>${p.avancement}% avancé</span><span>${p.statut}</span></div>
+  </div>`;
+}
+function renderProjList(){
+  document.getElementById('projList').innerHTML = projects.map(projCard).join('') ||
+    '<div class="empty">Aucun projet enregistré.</div>';
+}
+
+/* ===================== FICHE DANGER ===================== */
+function openFiche(id){
+  const r = reports.find(x=>x.id===id);
+  if(!r) return;
+  const g = GRAVITY.find(x=>x.key===r.gravity) || GRAVITY[0];
+  const conf = r.confirmations || {oui:0,non:0,ne_sais_pas:0};
+  document.getElementById('ficheBody').innerHTML = `
+    <img class="fiche-photo" src="${r.photo || PLACEHOLDER_IMG}">
+    <div class="fiche-id">SIGNAL ${r.id}${r.demo?' · démonstration':''}</div>
+    <div class="fiche-title">${r.category}</div>
+    <div class="fiche-meta">
+      <span class="badge ${statusClass(r.status)}">${r.status}</span>
+      <span class="badge" style="background:rgba(15,27,22,.08);color:var(--ink);">${g.emoji} ${g.label}</span>
+    </div>
+    <div class="fiche-meta" style="margin-top:-6px;">
+      <span class="mono" style="font-size:11.5px;color:var(--ink-soft);">📍 ${nearestCity(r.lat,r.lng)} · ${r.lat.toFixed(4)}, ${r.lng.toFixed(4)}</span>
+    </div>
+    <div class="fiche-meta" style="margin-top:-6px;">
+      <span class="mono" style="font-size:11.5px;color:var(--ink-soft);">🕒 Signalé le ${fmtDate(r.date)}</span>
+    </div>
+    <div class="fiche-comment">${escapeHtml(r.comment||'')}</div>
+    <div class="confidence"><span class="lv">Niveau 2</span> Signalement citoyen avec photo et position GPS automatique — nécessite vérification.</div>
+
+    <h4 style="margin:0 0 10px;font-size:12px;text-transform:uppercase;color:var(--ink-soft);">Le problème existe-t-il toujours ?</h4>
+    <div class="confirmrow">
+      ${['oui','non','ne_sais_pas'].map(choice=>{
+        const already = myConfirmations[r.id]===choice;
+        const locked = !!myConfirmations[r.id];
+        const label = choice==='oui'?'👍 Oui':choice==='non'?'👎 Non':'🤷 Je ne sais pas';
+        return `<button class="confbtn ${already?'picked':''} ${locked?'locked':''}" onclick="Kengela.confirm('${r.id}','${choice}')">${label}</button>`;
+      }).join('')}
+    </div>
+    <div class="confcount">${conf.oui||0} confirmation(s) · ${conf.non||0} infirmation(s) · ${conf.ne_sais_pas||0} incertain(s)${myConfirmations[r.id]?' · vous avez déjà répondu':''}</div>
+
+    <h4 style="margin:22px 0 8px;font-size:12px;text-transform:uppercase;color:var(--ink-soft);">Historique</h4>
+    <div class="timeline">${(r.history||[]).map(h=>`<div class="tlitem"><div class="d">${h.date}</div><div class="l">${escapeHtml(h.label)}</div></div>`).join('')}</div>
+  `;
+  document.getElementById('sheetFiche').classList.add('active');
+}
+async function confirmReport(id, choice){
+  if(myConfirmations[id]){ toast('Vous avez déjà répondu pour ce signalement.'); return; }
+  const r = reports.find(x=>x.id===id);
+  if(!r) return;
+  r.confirmations = r.confirmations || {oui:0,non:0,ne_sais_pas:0};
+  r.confirmations[choice] = (r.confirmations[choice]||0) + 1;
+  r.history = r.history || [];
+  const lbl = choice==='oui' ? 'confirme que le problème existe toujours.' : choice==='non' ? 'indique que le problème semble résolu.' : 'signale une incertitude sur l\u2019état actuel.';
+  r.history.push({date: new Date().toISOString().slice(0,10), label:'Un utilisateur ' + lbl});
+  myConfirmations[id] = choice;
+  await updateReport(r);
+  await saveMyConfirmations();
+  openFiche(id);
+  toast('Merci pour votre confirmation.');
+}
+
+/* ===================== FICHE PROJET ===================== */
+function openProjet(id){
+  const p = projects.find(x=>x.id===id);
+  if(!p) return;
+  document.getElementById('projetBody').innerHTML = `
+    <div class="fiche-id">PROJET ${p.id}${p.demo?' · donnée de démonstration':''}</div>
+    <div class="fiche-title">${p.name}</div>
+    <div class="fiche-meta">
+      <span class="badge" style="background:rgba(15,27,22,.08);color:var(--ink);">${p.type} — ${p.sub}</span>
+      <span class="badge st-Signalé">${p.statut}</span>
+    </div>
+    <div class="bar-track"><div class="bar-fill" style="width:${p.avancement}%"></div></div>
+    <div class="proj-foot" style="margin-bottom:14px;"><span>${p.avancement}% avancé</span><span>${p.city}</span></div>
+
+    <div class="reviewrow"><span>Maître d'ouvrage</span><b>${p.maitre}</b></div>
+    <div class="reviewrow"><span>Entreprise</span><b>${p.entreprise}</b></div>
+    <div class="reviewrow"><span>Début</span><b>${p.dateDebut}</b></div>
+    <div class="reviewrow"><span>Fin prévue</span><b>${p.dateFin}</b></div>
+    <div class="reviewrow"><span>Observations terrain</span><b>${(p.observations||[]).length}</b></div>
+
+    <button class="bigbtn" style="margin-top:16px;" onclick="Kengela.startObservation('${p.id}')">📷 Observer ce chantier</button>
+    <button class="ghostbtn" onclick="Kengela.toggleFollow('${p.id}')">${followed[p.id]?'⭐ Suivi — retirer':'☆ Suivre ce projet'}</button>
+
+    <h4 style="margin:22px 0 8px;font-size:12px;text-transform:uppercase;color:var(--ink-soft);">Observations terrain</h4>
+    <div class="timeline">${(p.observations||[]).slice().reverse().map(h=>`<div class="tlitem"><div class="d">${h.date}</div><div class="l">${escapeHtml(h.label)}</div></div>`).join('') || '<div class="empty">Aucune observation pour le moment.</div>'}</div>
+  `;
+  document.getElementById('sheetProjet').classList.add('active');
+}
+function toggleFollow(id){
+  followed[id] = !followed[id];
+  saveFollowed();
+  toast(followed[id] ? 'Projet suivi — vous recevrez les mises à jour.' : 'Projet retiré du suivi.');
+  if(document.getElementById('sheetProjet').classList.contains('active')) openProjet(id);
+  renderProjList();
+}
+function startObservation(projectId){
+  signalerMode = 'flow';
+  cameFromProjectSheet = true;
+  draft = {kind:'travail', projectId, group:null, category:null, comment:'', photo:null, lat:null, lng:null};
+  step = 0;
+  document.getElementById('sheetProjet').classList.remove('active');
+  openSignalerFlow('travail-obs');
+}
+
+/* ===================== FLUX SIGNALER ===================== */
+let signalerMode = 'choice'; // 'choice' = écran de choix initial, 'flow' = étapes en cours
+let cameFromProjectSheet = false;
+
+function openSignalerChoice(){
+  signalerMode = 'choice';
+  cameFromProjectSheet = false;
+  document.getElementById('signalerHeadTitle').textContent = 'Que souhaitez-vous faire ?';
+  document.getElementById('signalerProgress').innerHTML = '';
+  document.getElementById('signalerBody').innerHTML = `
+    <p class="step-sub">Choisissez ce que vous observez. Une photo, votre position et un commentaire suffisent.</p>
+    <button class="bigbtn" style="background:var(--g-elevee);color:#fff;margin-bottom:10px;" onclick="Kengela.beginFlow('danger')">⚠️ Signaler un danger</button>
+    <button class="bigbtn" style="background:var(--river);color:#fff;" onclick="Kengela.beginFlow('travail')">🏗️ Observer un travail</button>
+  `;
+  updateSignalerBackBtn();
+  document.getElementById('sheetSignaler').classList.add('active');
+}
+function beginFlow(kind){
+  signalerMode = 'flow';
+  draft = {kind, group:null, category:null, gravity:null, comment:'', photo:null, lat:null, lng:null};
+  step = 0;
+  openSignalerFlow(kind);
+}
+function updateSignalerBackBtn(){
+  const btn = document.getElementById('signalerBackBtn');
+  // Sur l'écran de choix initial (pas d'étape précédente), le bouton retour
+  // se comporte comme le bouton fermer.
+  btn.style.visibility = 'visible';
+}
+function signalerGoBack(){
+  if(signalerMode==='choice'){ closeSheet('sheetSignaler'); return; }
+  if(step===0){
+    if(cameFromProjectSheet){ closeSheet('sheetSignaler'); document.getElementById('sheetProjet').classList.add('active'); return; }
+    openSignalerChoice();
+    return;
+  }
+  step--;
+  renderStep();
+}
+document.getElementById('signalerBackBtn').addEventListener('click', signalerGoBack);
+function totalSteps(){
+  if(draft.kind==='danger') return 6;
+  return 4; // travail : gps -> photo -> categorie+commentaire -> envoyer
+}
+function openSignalerFlow(kind){
+  document.getElementById('signalerHeadTitle').textContent = draft.kind==='danger' ? 'Signaler un danger' : 'Observer un travail';
+  renderStep();
+  document.getElementById('sheetSignaler').classList.add('active');
+}
+function renderProgress(){
+  const n = totalSteps();
+  let html='';
+  for(let i=0;i<n;i++){ html += `<span class="${i<=step?'done':''}"></span>`; }
+  document.getElementById('signalerProgress').innerHTML = html;
+}
+
+function renderStep(){
+  renderProgress();
+  const body = document.getElementById('signalerBody');
+
+  // ---- Étape 0 : GPS ----
+  if(step===0){
+    body.innerHTML = `
+      <div class="step-title">Votre position</div>
+      <div class="step-sub">Kengela récupère automatiquement votre position GPS. Aucune saisie manuelle n'est nécessaire.</div>
+      <div class="gpsbox" id="gpsBox">
+        <div class="ic">📍</div>
+        <div>
+          <div class="lat" id="gpsLat">Localisation en cours…</div>
+          <div class="lbl">Précision GPS affichée automatiquement</div>
+        </div>
+      </div>
+      <button class="bigbtn" id="gpsNext" disabled>Continuer</button>
+    `;
+    locate();
+    return;
+  }
+
+  // ---- Étape 1 : Photo ----
+  if(step===1){
+    body.innerHTML = `
+      <div class="step-title">Ajoutez une photo</div>
+      <div class="step-sub">La photo est obligatoire — elle documente ce que vous observez.</div>
+      <div class="photozone" id="photozone">
+        ${draft.photo ? `<img src="${draft.photo}">` : `<div class="icon">📷</div><div class="hint">Prendre une photo ou choisir dans la galerie</div>`}
+      </div>
+      ${draft.photo ? `<button class="ghostbtn" id="retakeBtn" style="margin-top:-6px;margin-bottom:14px;">↻ Reprendre la photo</button>` : `
+      <div style="display:flex;gap:10px;margin-bottom:14px;">
+        <label class="ghostbtn" style="margin-top:0;flex:1;text-align:center;cursor:pointer;">
+          📷 Appareil photo
+          <input type="file" accept="image/*" capture="environment" style="display:none" id="photoInputCamera">
+        </label>
+        <label class="ghostbtn" style="margin-top:0;flex:1;text-align:center;cursor:pointer;">
+          🖼️ Galerie
+          <input type="file" accept="image/*" style="display:none" id="photoInputGallery">
+        </label>
+      </div>`}
+      <button class="bigbtn" id="photoNext" ${draft.photo?'':'disabled'}>Continuer</button>
+    `;
+    const handlePick = async (e)=>{
+      const file = e.target.files[0];
+      if(!file) return;
+      toast('Traitement de la photo…');
+      draft.photo = await compressImage(file, 480);
+      renderStep();
+    };
+    const camInput = document.getElementById('photoInputCamera');
+    const galInput = document.getElementById('photoInputGallery');
+    if(camInput) camInput.addEventListener('change', handlePick);
+    if(galInput) galInput.addEventListener('change', handlePick);
+    const retake = document.getElementById('retakeBtn');
+    if(retake) retake.addEventListener('click', ()=>{ draft.photo=null; renderStep(); });
+    document.getElementById('photoNext').addEventListener('click', ()=>{ step++; renderStep(); });
+    return;
+  }
+
+  // ---- Étape 2 : Catégorie ----
+  if(step===2){
+    const cats = draft.kind==='danger' ? DANGER_CATS : TRAVAUX_TYPES;
+    let html = `<div class="step-title">Catégorie</div><div class="step-sub">Choisissez ce qui décrit le mieux la situation.</div>`;
+    Object.entries(cats).forEach(([group, list])=>{
+      html += `<div class="catgroup"><h4>${group}</h4><div class="catgrid">`;
+      list.forEach(c=>{
+        const sel = (draft.group===group && draft.category===c) ? 'sel' : '';
+        html += `<button class="catbtn ${sel}" data-group="${group}" data-cat="${c}">${c}</button>`;
+      });
+      html += `</div></div>`;
+    });
+    html += `<button class="bigbtn" id="catNext" ${draft.category?'':'disabled'}>Continuer</button>`;
+    body.innerHTML = html;
+    body.querySelectorAll('.catbtn').forEach(b=>{
+      b.addEventListener('click', ()=>{
+        draft.group = b.dataset.group; draft.category = b.dataset.cat;
+        renderStep();
+      });
+    });
+    const nextBtn = document.getElementById('catNext');
+    if(nextBtn) nextBtn.addEventListener('click', ()=>{ step++; renderStep(); });
+    return;
+  }
+
+  // ---- Étape 3 : Commentaire ----
+  if(step===3){
+    body.innerHTML = `
+      <div class="step-title">Que voyez-vous ?</div>
+      <div class="step-sub">Décrivez la situation en quelques mots.</div>
+      <textarea class="commentbox" id="commentInput" placeholder="Ex. : Une partie de la route s'est effondrée. Les véhicules doivent passer sur le côté.">${draft.comment||''}</textarea>
+      <button class="bigbtn" id="commentNext" style="margin-top:12px;" ${draft.comment&&draft.comment.trim()?'':'disabled'}>Continuer</button>
+    `;
+    const ta = document.getElementById('commentInput');
+    const nb = document.getElementById('commentNext');
+    ta.addEventListener('input', ()=>{ draft.comment = ta.value; nb.disabled = !ta.value.trim(); });
+    nb.addEventListener('click', ()=>{
+      draft.comment = ta.value;
+      if(draft.kind==='danger'){ step++; renderStep(); } else { submitDraft(); }
+    });
+    return;
+  }
+
+  // ---- Étape 4 (danger uniquement) : Gravité ----
+  if(step===4 && draft.kind==='danger'){
+    body.innerHTML = `
+      <div class="step-title">Niveau de gravité</div>
+      <div class="step-sub">Aide-nous à prioriser l'intervention.</div>
+      <div class="gravrow">
+        ${GRAVITY.map(g=>`<div class="gravopt ${draft.gravity===g.key?'sel':''}" data-g="${g.key}">
+            <div class="e">${g.emoji}</div>
+            <div><div class="t">${g.label}</div><div class="d">${g.desc}</div></div>
+          </div>`).join('')}
+      </div>
+      <button class="bigbtn" id="gravNext" style="margin-top:14px;" ${draft.gravity?'':'disabled'}>Continuer</button>
+    `;
+    body.querySelectorAll('.gravopt').forEach(el=>{
+      el.addEventListener('click', ()=>{ draft.gravity = el.dataset.g; renderStep(); });
+    });
+    const nb = document.getElementById('gravNext');
+    if(nb) nb.addEventListener('click', ()=>{ step++; renderStep(); });
+    return;
+  }
+
+  // ---- Étape finale : Récapitulatif ----
+  const finalStep = draft.kind==='danger' ? 5 : 3;
+  if(step===finalStep){
+    const g = GRAVITY.find(x=>x.key===draft.gravity);
+    body.innerHTML = `
+      <div class="step-title">Vérifiez avant l'envoi</div>
+      <img class="fiche-photo" src="${draft.photo}" style="height:150px;">
+      <div class="reviewrow"><span>Catégorie</span><b>${draft.category}</b></div>
+      ${draft.kind==='danger' ? `<div class="reviewrow"><span>Gravité</span><b>${g.emoji} ${g.label}</b></div>` : ''}
+      <div class="reviewrow"><span>Position</span><b>${draft.lat?draft.lat.toFixed(4)+', '+draft.lng.toFixed(4):'—'}</b></div>
+      <div class="reviewrow" style="border-bottom:none;flex-direction:column;align-items:flex-start;gap:4px;"><span>Commentaire</span><b style="font-weight:500;">${escapeHtml(draft.comment)}</b></div>
+      <button class="bigbtn" style="margin-top:16px;" id="sendBtn">Envoyer</button>
+    `;
+    document.getElementById('sendBtn').addEventListener('click', submitDraft);
+    return;
+  }
+}
+
+function locate(){
+  if(!navigator.geolocation){
+    draft.lat = userPos ? userPos.lat : CITIES[0].lat;
+    draft.lng = userPos ? userPos.lng : CITIES[0].lng;
+    finishLocate();
+    return;
+  }
+  navigator.geolocation.getCurrentPosition(
+    pos=>{
+      draft.lat = pos.coords.latitude; draft.lng = pos.coords.longitude;
+      draft.accuracy = pos.coords.accuracy;
+      userPos = {lat:draft.lat, lng:draft.lng};
+      finishLocate();
+    },
+    err=>{
+      // fallback : position approximative (Kinshasa) si refusé/indisponible
+      draft.lat = CITIES[0].lat + (Math.random()-0.5)*0.02;
+      draft.lng = CITIES[0].lng + (Math.random()-0.5)*0.02;
+      finishLocate(true);
+    },
+    {enableHighAccuracy:true, timeout:8000}
+  );
+}
+function finishLocate(fallback){
+  const box = document.getElementById('gpsLat');
+  const next = document.getElementById('gpsNext');
+  if(!box) return;
+  box.textContent = (fallback ? '≈ ' : '') + draft.lat.toFixed(5) + ', ' + draft.lng.toFixed(5) + (draft.accuracy?` (±${Math.round(draft.accuracy)} m)`:'');
+  next.disabled = false;
+  next.onclick = ()=>{ step++; renderStep(); };
+}
+
+async function submitDraft(){
+  if(!navigator.onLine){
+    offlineQueue.push(draft);
+    toast(`${offlineQueue.length} observation(s) en attente de synchronisation.`);
+    closeSheet('sheetSignaler');
+    return;
+  }
+  if(draft.kind==='danger'){
+    const r = {
+      id: uid('KEN'), kind:'danger',
+      group:draft.group, category:draft.category, gravity:draft.gravity,
+      comment:draft.comment, photo:draft.photo, lat:draft.lat, lng:draft.lng,
+      date:new Date().toISOString(), status:'Signalé',
+      confirmations:{oui:0,non:0,ne_sais_pas:0},
+      history:[{date:new Date().toISOString().slice(0,10), label:'Signalement citoyen.'}]
+    };
+    r.mine = true;
+    await saveReport(r);
+    await markAsMine(r.id);
+    renderFeed(); renderMap();
+    toast('Signalement envoyé. Merci pour votre vigilance.');
+  } else {
+    const project = projects.find(p=>p.id===draft.projectId);
+    const obs = {date:new Date().toISOString().slice(0,10), label:draft.comment};
+    if(project){
+      project.observations = project.observations || [];
+      project.observations.push(obs);
+      await saveProject(project);
+      renderProjList();
+    } else {
+      const r = {
+        id: uid('OBS'), kind:'travail',
+        group:draft.group, category:draft.category, gravity:null,
+        comment:draft.comment, photo:draft.photo, lat:draft.lat, lng:draft.lng,
+        date:new Date().toISOString(), status:'Signalé',
+        confirmations:{oui:0,non:0,ne_sais_pas:0},
+        history:[{date:new Date().toISOString().slice(0,10), label:'Observation citoyenne d\u2019un chantier.'}]
+      };
+      await saveReport(r);
+      renderFeed(); renderMap();
+    }
+    toast('Observation envoyée. Merci !');
+  }
+  closeSheet('sheetSignaler');
+}
+
+/* ===================== AUTOUR DE MOI ===================== */
+let radiusKm = 5;
+function renderRadiusRow(){
+  const row = document.getElementById('radiusRow');
+  row.innerHTML = [1,5,10,25].map(r=>`<div class="rchip ${r===radiusKm?'active':''}" data-r="${r}">${r} km</div>`).join('');
+  row.querySelectorAll('.rchip').forEach(c=>c.addEventListener('click', ()=>{ radiusKm=+c.dataset.r; renderAround(); }));
+}
+function renderAround(){
+  renderRadiusRow();
+  const summary = document.getElementById('aroundSummary');
+  const feed = document.getElementById('aroundFeed');
+  if(!userPos){
+    summary.innerHTML = '';
+    feed.innerHTML = `<div class="empty">Activation de la localisation…<br>Autorisez l'accès pour voir ce qui se passe autour de vous.</div>`;
+    if(navigator.geolocation){
+      navigator.geolocation.getCurrentPosition(pos=>{
+        userPos = {lat:pos.coords.latitude, lng:pos.coords.longitude};
+        renderAround();
+      }, ()=>{
+        userPos = {lat:CITIES[0].lat, lng:CITIES[0].lng};
+        renderAround();
+      });
+    }
+    return;
+  }
+  const nearDangers = reports.filter(r=>haversine(userPos.lat,userPos.lng,r.lat,r.lng)<=radiusKm);
+  const nearTravaux = projects.filter(p=>haversine(userPos.lat,userPos.lng,p.lat,p.lng)<=radiusKm);
+  summary.innerHTML = `
+    <div class="box"><div class="n">${nearDangers.length}</div><div class="l">Dangers</div></div>
+    <div class="box"><div class="n">${nearTravaux.length}</div><div class="l">Travaux</div></div>
+    <div class="box"><div class="n">${nearDangers.length+nearTravaux.length}</div><div class="l">Total</div></div>
+  `;
+  const items = [
+    ...nearDangers.map(r=>({dist:haversine(userPos.lat,userPos.lng,r.lat,r.lng), html:reportCard(r)})),
+    ...nearTravaux.map(p=>({dist:haversine(userPos.lat,userPos.lng,p.lat,p.lng), html:projCardMini(p)}))
+  ].sort((a,b)=>a.dist-b.dist);
+  feed.innerHTML = items.length ? items.map(i=>i.html).join('') : `<div class="empty">Rien signalé dans un rayon de ${radiusKm} km.</div>`;
+}
+function projCardMini(p){
+  return `<div class="card" onclick="Kengela.openProjet('${p.id}')">
+    <img class="thumb" src="${PLACEHOLDER_IMG}">
+    <div class="body">
+      <div class="row1"><div class="cat">${p.name}</div><div class="grav">🏗️</div></div>
+      <div class="meta">${p.id} · ${p.city}</div>
+      <div class="comment">${p.type} — ${p.sub} · ${p.avancement}% avancé</div>
+    </div>
+  </div>`;
+}
+
+/* ===================== NAVIGATION ===================== */
+function showTab(tab){
+  if(tab==='profil-nav'){ openProfil(); return; }
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById('view-'+tab).classList.add('active');
+  document.querySelectorAll('.navbtn').forEach(b=>b.classList.toggle('active', b.dataset.tab===tab));
+  if(tab==='travaux') renderProjList();
+  if(tab==='autour') renderAround();
+  if(tab==='carte') setTimeout(()=>map && map.invalidateSize(), 50);
+}
+document.querySelectorAll('.navbtn').forEach(b=>b.addEventListener('click', ()=>showTab(b.dataset.tab)));
+document.getElementById('btnSignaler').addEventListener('click', openSignalerChoice);
+document.getElementById('btnProfil').addEventListener('click', openProfil);
+
+/* fermeture : bouton ✕, bouton retour (←), et clic sur le fond du panneau */
+document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click', ()=>closeSheet(b.dataset.close)));
+document.querySelectorAll('.sheet-overlay').forEach(ov=>{
+  ov.addEventListener('click', (e)=>{ if(e.target===ov) closeSheet(ov.id); });
+});
+function closeSheet(id){ document.getElementById(id).classList.remove('active'); }
+
+/* glisser vers le bas pour fermer (retour tactile naturel sur mobile) */
+document.querySelectorAll('.sheet').forEach(sheet=>{
+  let startY=null, currentY=0, dragging=false;
+  const handle = sheet.querySelector('.drag-handle') || sheet;
+  handle.addEventListener('touchstart', e=>{ startY = e.touches[0].clientY; dragging=true; sheet.style.transition='none'; }, {passive:true});
+  handle.addEventListener('touchmove', e=>{
+    if(!dragging) return;
+    currentY = Math.max(0, e.touches[0].clientY - startY);
+    sheet.style.transform = `translateY(${currentY}px)`;
+  }, {passive:true});
+  handle.addEventListener('touchend', ()=>{
+    dragging=false; sheet.style.transition='';
+    if(currentY > 110){ closeSheet(sheet.closest('.sheet-overlay').id); }
+    sheet.style.transform='';
+    currentY=0;
+  });
+});
+
+/* ===================== RECHERCHE ===================== */
+let searchQuery = '';
+const searchInput = document.getElementById('searchInput');
+const searchbarEl = document.getElementById('searchbar');
+searchInput.addEventListener('input', ()=>{
+  searchQuery = searchInput.value.trim().toLowerCase();
+  searchbarEl.classList.toggle('has-text', searchQuery.length>0);
+  renderFeed();
+});
+document.getElementById('searchClear').addEventListener('click', ()=>{
+  searchInput.value=''; searchQuery=''; searchbarEl.classList.remove('has-text'); renderFeed();
+});
+
+/* ===================== PROFIL ===================== */
+function openProfil(){
+  const mine = reports.filter(r=>r.mine).length;
+  const followedCount = Object.values(followed).filter(Boolean).length;
+  document.getElementById('profilBody').innerHTML = `
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:20px;">
+      <div style="width:52px;height:52px;border-radius:50%;background:var(--clay);display:flex;align-items:center;justify-content:center;font-size:22px;color:#1a1005;font-weight:900;">👤</div>
+      <div>
+        <div style="font-weight:800;font-size:15px;">Citoyen Kengela</div>
+        <div style="font-size:12px;color:var(--ink-soft);">Compte anonyme · démonstration</div>
+      </div>
+    </div>
+    <div class="around-summary" style="padding:0 0 18px;">
+      <div class="box" style="background:rgba(15,27,22,.05);"><div class="n" style="color:var(--ink);">${mine}</div><div class="l">Mes signalements</div></div>
+      <div class="box" style="background:rgba(15,27,22,.05);"><div class="n" style="color:var(--ink);">${followedCount}</div><div class="l">Projets suivis</div></div>
+      <div class="box" style="background:rgba(15,27,22,.05);"><div class="n" style="color:var(--ink);">${reports.length}</div><div class="l">Total plateforme</div></div>
+    </div>
+    <h4 style="font-size:12px;text-transform:uppercase;color:var(--ink-soft);margin:0 0 10px;">Mes signalements</h4>
+    <div style="margin:0 -18px;">
+      ${reports.filter(r=>r.mine).length ? reports.filter(r=>r.mine).map(reportCard).join('') : '<div class="empty">Vous n\u2019avez pas encore contribué. Touchez ⚠️ pour signaler votre premier danger.</div>'}
+    </div>
+    <div style="height:8px;"></div>
+    <button class="ghostbtn" onclick="Kengela.closeSheet('sheetProfil')">Fermer</button>
+  `;
+  document.getElementById('sheetProfil').classList.add('active');
+}
+
+/* ===================== RÉSEAU (mode hors connexion, §24) ===================== */
+function updateNetStatus(){
+  const pill = document.getElementById('netPill');
+  const lbl = document.getElementById('netLbl');
+  if(navigator.onLine){
+    pill.classList.remove('off'); lbl.textContent = 'En ligne';
+    flushOfflineQueue();
+  } else {
+    pill.classList.add('off'); lbl.textContent = 'Hors connexion';
+  }
+}
+async function flushOfflineQueue(){
+  if(offlineQueue.length===0) return;
+  toast(`Synchronisation de ${offlineQueue.length} observation(s)…`);
+  const q = offlineQueue; offlineQueue = [];
+  for(const d of q){ draft = d; await submitDraft(); }
+}
+window.addEventListener('online', updateNetStatus);
+window.addEventListener('offline', updateNetStatus);
+
+/* ===================== INIT ===================== */
+window.Kengela = { openFiche, openProjet, toggleFollow, confirm:confirmReport, startObservation, beginFlow, closeSheet };
+
+(async function init(){
+  const splash = document.getElementById('splash');
+  const splashMsg = document.getElementById('splashMsg');
+  const minSplashDuration = new Promise(r=>setTimeout(r, 900)); // laisse le temps de voir l'animation, même sur un chargement rapide
+
+  // Filet de sécurité : quoi qu'il arrive, l'écran de démarrage disparaît
+  // au bout de 6 secondes maximum — jamais de blocage indéfini.
+  const hardTimeout = setTimeout(()=>{
+    splash.classList.add('hidden');
+    setTimeout(()=>{ splash.style.display='none'; map && map.invalidateSize(); }, 550);
+  }, 6000);
+
+  try{
+    initMap();
+    updateNetStatus();
+    await loadAll();
+    if(splashMsg) splashMsg.textContent = 'Mise en place de la carte…';
+    renderFeed();
+    renderProjList();
+    renderMap();
+    if(navigator.geolocation){
+      navigator.geolocation.getCurrentPosition(pos=>{
+        userPos = {lat:pos.coords.latitude, lng:pos.coords.longitude};
+      }, ()=>{});
+    }
+  }catch(err){
+    console.error('Kengela — erreur au démarrage :', err);
+    toast("Un problème est survenu au chargement. L'application continue en mode dégradé.");
+  }finally{
+    clearTimeout(hardTimeout);
+    await minSplashDuration;
+    splash.classList.add('hidden');
+    setTimeout(()=>{ splash.style.display='none'; map && map.invalidateSize(); }, 550);
+  }
+})();
+
+})();
+</script>
+</body>
+</html>
