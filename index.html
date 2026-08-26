@@ -68,17 +68,6 @@
   }
   .status-pill .dot{width:6px;height:6px;border-radius:50%;background:var(--g-faible);}
   .status-pill.off .dot{background:var(--clay);}
-  .topbar-actions{display:flex;align-items:center;gap:8px;}
-  .iconbtn{
-    width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:transparent;
-    color:var(--paper);font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;
-    position:relative;
-  }
-  .iconbtn:active{transform:scale(0.9);background:rgba(239,233,216,0.08);}
-  .notif-dot{
-    position:absolute;top:-2px;right:-2px;width:9px;height:9px;border-radius:50%;
-    background:var(--clay);border:2px solid var(--surface);
-  }
 
   /* ---- main scroll area ---- */
   main{flex:1;overflow-y:auto;position:relative;padding-bottom:86px;}
@@ -101,7 +90,6 @@
   .section-title{
     font-family:'Archivo Black',sans-serif;font-size:13px;letter-spacing:0.03em;
     text-transform:uppercase;color:#B9CFC5;padding:18px 18px 8px;
-    display:flex;align-items:center;justify-content:space-between;gap:8px;
   }
   .stamp{
     display:inline-flex;align-items:center;gap:6px;
@@ -110,24 +98,10 @@
     transform:rotate(-1.5deg);text-transform:uppercase;
   }
 
-  .searchbar{
-    display:flex;align-items:center;gap:8px;margin:12px 14px 4px;
-    background:var(--surface);border:1px solid var(--line);border-radius:12px;
-    padding:9px 12px;
-  }
-  .searchbar input{
-    flex:1;background:none;border:none;outline:none;color:var(--paper);font-size:13px;font-family:'Inter';
-  }
-  .searchbar input::placeholder{color:#6E8A7E;}
-  .searchbar .ic{font-size:14px;color:#8FA69B;}
-  .searchbar .clearx{cursor:pointer;color:#8FA69B;font-size:13px;padding:2px 4px;display:none;}
-  .searchbar.has-text .clearx{display:block;}
-
   .feed{padding:0 14px 4px;display:flex;flex-direction:column;gap:10px;}
   .card{
     background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
     padding:12px;display:flex;gap:12px;cursor:pointer;transition:transform .12s ease;
-    position:relative;
   }
   .card:active{transform:scale(0.985);}
   .card .thumb{
@@ -135,12 +109,11 @@
   }
   .card .body{flex:1;min-width:0;}
   .card .row1{display:flex;justify-content:space-between;gap:8px;align-items:flex-start;}
-  .card .cat{font-size:13px;font-weight:700;color:var(--paper);display:flex;align-items:center;gap:6px;}
+  .card .cat{font-size:13px;font-weight:700;color:var(--paper);}
   .card .grav{font-size:15px;}
   .card .meta{font-size:11px;color:#93A79D;margin-top:3px;font-family:'IBM Plex Mono',monospace;}
   .card .comment{font-size:12px;color:#CFE0D6;margin-top:6px;line-height:1.35;
     display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
-  .card .photocount{font-size:10px;color:#8FA69B;margin-top:4px;}
   .badge{
     font-size:9px;padding:3px 7px;border-radius:20px;font-weight:700;letter-spacing:0.03em;
     text-transform:uppercase;display:inline-block;
@@ -150,20 +123,6 @@
   .badge.st-Confirmé{background:#22394A;color:#7FC4F0;}
   .badge.st-Pris-en-charge{background:#3A2244;color:#D79AF0;}
   .badge.st-Résolu{background:#204A2E;color:#7FE0A0;}
-  .type-tag{
-    font-size:9px;padding:2px 6px;border-radius:6px;font-weight:700;letter-spacing:0.02em;
-    text-transform:uppercase;display:inline-flex;align-items:center;gap:3px;
-  }
-  .type-tag.danger{background:rgba(201,80,47,0.18);color:#F0A388;}
-  .type-tag.travail{background:rgba(62,143,166,0.18);color:#8FD4EA;}
-
-  .locate-pin{
-    position:absolute;top:10px;right:10px;width:26px;height:26px;border-radius:50%;
-    background:rgba(15,27,22,0.55);border:1px solid var(--line);
-    display:flex;align-items:center;justify-content:center;font-size:12px;cursor:pointer;
-    z-index:2;
-  }
-  .locate-pin:active{transform:scale(0.88);}
 
   /* ---- FAB & bottom nav ---- */
   nav.bottomnav{
@@ -185,7 +144,6 @@
     box-shadow:0 8px 20px rgba(201,121,58,0.5);border:4px solid var(--bg);
     margin-top:-30px;color:var(--ink);cursor:pointer;
   }
-  .fab-label{display:none;}
 
   /* ---- generic panel / modal ---- */
   .sheet-overlay{
@@ -238,10 +196,6 @@
     border:1.5px solid rgba(15,27,22,0.18);background:transparent;color:var(--ink);
     font-weight:600;font-size:13px;cursor:pointer;text-align:center;margin-top:8px;
   }
-  .linkbtn{
-    background:none;border:none;color:var(--river);font-weight:700;font-size:13px;
-    cursor:pointer;padding:8px 0;text-decoration:underline;
-  }
 
   .gpsbox{
     display:flex;align-items:center;gap:10px;background:rgba(62,143,166,0.12);
@@ -251,53 +205,15 @@
   .gpsbox .lat{font-family:'IBM Plex Mono';font-size:12px;color:#1F5B73;}
   .gpsbox .lbl{font-size:11px;color:var(--ink-soft);}
 
-  /* ================= ZONE D'AJOUT PHOTOS (création uniquement) ================= */
-  .photo-add-grid{
-    display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px;
-  }
-  .photo-add-slot{
-    position:relative;aspect-ratio:1/1;border-radius:12px;overflow:hidden;background:rgba(15,27,22,0.05);
-  }
-  .photo-add-slot img{width:100%;height:100%;object-fit:cover;display:block;}
-  .photo-add-slot .rm{
-    position:absolute;top:5px;right:5px;width:22px;height:22px;border-radius:50%;
-    background:rgba(15,27,22,0.75);color:#fff;border:none;font-size:12px;cursor:pointer;
-    display:flex;align-items:center;justify-content:center;line-height:1;
-  }
-  .photo-counter{
-    text-align:center;font-family:'IBM Plex Mono';font-size:11.5px;color:var(--ink-soft);margin-bottom:12px;
-  }
-  .photo-add-buttons{display:flex;gap:10px;margin-bottom:14px;}
-  .photo-add-buttons label{
-    flex:1;text-align:center;padding:13px;border-radius:12px;
-    border:1.5px solid rgba(15,27,22,0.18);background:transparent;color:var(--ink);
-    font-weight:600;font-size:13px;cursor:pointer;
-  }
-  .photo-add-buttons label.disabled{opacity:0.35;pointer-events:none;}
-  .photo-add-empty{
+  .photozone{
     border:2px dashed rgba(15,27,22,0.25);border-radius:14px;
     display:flex;flex-direction:column;align-items:center;justify-content:center;
-    padding:26px 10px;text-align:center;gap:6px;min-height:120px;margin-bottom:4px;
+    padding:26px 10px;text-align:center;gap:6px;cursor:pointer;margin-bottom:14px;
+    position:relative;overflow:hidden;min-height:140px;
   }
-  .photo-add-empty .icon{font-size:26px;}
-  .photo-add-empty .hint{font-size:12px;color:var(--ink-soft);}
-
-  /* ================= GALERIE DE CONSULTATION (fiche uniquement, lecture seule) ================= */
-  .photo-view-gallery{margin-bottom:16px;}
-  .photo-view-main{
-    width:100%;aspect-ratio:16/10;border-radius:14px;overflow:hidden;background:var(--surface-2);margin-bottom:8px;
-  }
-  .photo-view-main img{width:100%;height:100%;object-fit:cover;display:block;cursor:zoom-in;}
-  .photo-view-thumbs{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;}
-  .photo-view-thumbs .t{
-    aspect-ratio:1/1;border-radius:8px;overflow:hidden;cursor:pointer;border:2px solid transparent;background:var(--surface-2);
-  }
-  .photo-view-thumbs .t.sel{border-color:var(--clay);}
-  .photo-view-thumbs .t img{width:100%;height:100%;object-fit:cover;display:block;}
-  .photo-view-empty{
-    width:100%;height:160px;border-radius:14px;background:rgba(15,27,22,0.05);
-    display:flex;align-items:center;justify-content:center;color:var(--ink-soft);font-size:13px;margin-bottom:16px;
-  }
+  .photozone img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+  .photozone .hint{font-size:12px;color:var(--ink-soft);}
+  .photozone .icon{font-size:26px;}
 
   .catgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px;}
   .catgroup{margin-bottom:14px;}
@@ -312,10 +228,6 @@
     width:100%;border-radius:12px;border:1.5px solid rgba(15,27,22,0.16);
     padding:12px;font-size:13.5px;font-family:'Inter';resize:vertical;min-height:90px;
   }
-  input.textinput{
-    width:100%;border-radius:10px;border:1.5px solid rgba(15,27,22,0.16);
-    padding:11px 12px;font-size:13px;font-family:'Inter';
-  }
 
   .gravrow{display:flex;flex-direction:column;gap:8px;}
   .gravopt{
@@ -327,53 +239,11 @@
   .gravopt .t{font-weight:700;font-size:13px;}
   .gravopt .d{font-size:11.5px;color:var(--ink-soft);margin-top:2px;}
 
-  .reviewrow{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid rgba(15,27,22,0.08);font-size:13px;gap:12px;}
-  .reviewrow b{font-weight:700;text-align:right;}
-
-  /* ---- projets (choix dans le flux) ---- */
-  .projpick{
-    border:1.5px solid rgba(15,27,22,0.14);border-radius:12px;padding:12px;margin-bottom:8px;
-    cursor:pointer;background:#fff;display:flex;justify-content:space-between;align-items:center;gap:10px;
-  }
-  .projpick.sel{border-color:var(--clay);background:rgba(201,121,58,0.1);}
-  .projpick .n{font-weight:700;font-size:13px;}
-  .projpick .c{font-size:11px;color:var(--ink-soft);margin-top:2px;}
-
-  /* ---- liens / sources ---- */
-  .links-list{display:flex;flex-direction:column;gap:8px;margin-bottom:10px;}
-  .link-row{
-    display:flex;align-items:center;gap:10px;border:1.5px solid rgba(15,27,22,0.14);
-    border-radius:12px;padding:11px 12px;background:#fff;
-  }
-  .link-row .ic{font-size:16px;}
-  .link-row .info{flex:1;min-width:0;}
-  .link-row .lt{font-weight:700;font-size:12.5px;}
-  .link-row .lu{font-size:11px;color:var(--ink-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .link-row .actions{display:flex;gap:6px;flex:0 0 auto;}
-  .link-row .actions button{
-    width:26px;height:26px;border-radius:50%;border:none;background:rgba(15,27,22,0.08);
-    cursor:pointer;font-size:12px;color:var(--ink);
-  }
-  .link-form{
-    border:1.5px dashed rgba(15,27,22,0.25);border-radius:12px;padding:14px;margin-bottom:10px;
-  }
-  .link-form label{font-size:11px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:0.04em;display:block;margin:8px 0 4px;}
-  .link-form label:first-child{margin-top:0;}
-  .link-form .rowbtns{display:flex;gap:8px;margin-top:12px;}
-  .link-form .rowbtns button{flex:1;}
-
-  .view-links{display:flex;flex-direction:column;gap:8px;margin-bottom:16px;}
-  .view-link-row{
-    display:flex;align-items:center;gap:10px;background:rgba(15,27,22,0.04);border-radius:12px;padding:12px;
-    text-decoration:none;color:var(--ink);
-  }
-  .view-link-row .ic{font-size:17px;flex:0 0 auto;}
-  .view-link-row .info{flex:1;min-width:0;}
-  .view-link-row .lt{font-weight:700;font-size:13px;}
-  .view-link-row .lu{font-size:11px;color:var(--river);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .view-link-row .go{font-size:14px;color:var(--ink-soft);flex:0 0 auto;}
+  .reviewrow{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid rgba(15,27,22,0.08);font-size:13px;}
+  .reviewrow b{font-weight:700;}
 
   /* fiche */
+  .fiche-photo{width:100%;height:200px;object-fit:cover;border-radius:14px;margin-bottom:14px;background:var(--surface-2);}
   .fiche-id{font-family:'IBM Plex Mono';font-size:11px;color:var(--ink-soft);}
   .fiche-title{font-family:'Archivo Black';font-size:18px;margin:4px 0 8px;}
   .fiche-meta{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;}
@@ -386,24 +256,14 @@
   .tlitem::before{content:'';position:absolute;left:-21px;top:2px;width:9px;height:9px;border-radius:50%;background:var(--clay);}
   .tlitem .d{font-family:'IBM Plex Mono';font-size:10.5px;color:var(--ink-soft);}
   .tlitem .l{font-size:12.5px;margin-top:2px;}
-  .tlitem .photos-mini{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;}
-  .tlitem .photos-mini img{width:52px;height:52px;border-radius:8px;object-fit:cover;}
 
   .confirmrow{display:flex;gap:8px;margin:14px 0 4px;}
   .confbtn{flex:1;padding:10px;border-radius:10px;border:1.5px solid rgba(15,27,22,0.16);background:#fff;font-size:12px;font-weight:700;cursor:pointer;}
   .confbtn.picked{background:var(--river);border-color:var(--river);color:#fff;}
-  .confbtn.locked{opacity:0.45;pointer-events:none;}
-  .confbtn.picked.locked{opacity:1;}
   .confcount{font-size:11px;color:var(--ink-soft);margin-top:8px;text-align:center;}
 
-  .locatebtn{
-    display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:13px;
-    border-radius:12px;border:none;background:var(--ink);color:var(--paper);font-weight:700;font-size:13px;
-    cursor:pointer;margin-bottom:16px;
-  }
-
   /* travaux list */
-  .proj-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:14px;margin:0 14px 12px;position:relative;}
+  .proj-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:14px;margin:0 14px 12px;}
   .proj-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;}
   .proj-top .name{font-weight:700;font-size:14px;}
   .proj-top .city{font-size:11px;color:#93A79D;font-family:'IBM Plex Mono';margin-top:2px;}
@@ -423,209 +283,52 @@
   .around-summary .box .n{font-family:'Archivo Black';font-size:20px;}
   .around-summary .box .l{font-size:10px;color:#93A79D;text-transform:uppercase;letter-spacing:0.04em;margin-top:2px;}
 
-  /* profil / points */
-  .grade-card{
-    background:linear-gradient(135deg, var(--surface-2), var(--surface));
-    border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:16px;color:var(--paper);
-  }
-  .grade-card .top{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
-  .grade-card .emoji{font-size:30px;}
-  .grade-card .name{font-family:'Archivo Black';font-size:15px;}
-  .grade-card .pts{font-family:'IBM Plex Mono';font-size:11px;color:#9FC0B2;margin-top:2px;}
-  .grade-bar-track{height:8px;background:rgba(239,233,216,0.14);border-radius:6px;overflow:hidden;margin-bottom:6px;}
-  .grade-bar-fill{height:100%;background:var(--clay);border-radius:6px;transition:width .4s ease;}
-  .grade-next{font-size:10.5px;color:#8FA69B;font-family:'IBM Plex Mono';}
-  .points-log{display:flex;flex-direction:column;gap:6px;margin-top:4px;}
-  .points-log-row{display:flex;justify-content:space-between;font-size:12px;padding:8px 0;border-bottom:1px solid rgba(15,27,22,0.08);}
-  .points-log-row .pl{color:var(--ink-soft);}
-  .points-log-row .pv{font-weight:700;color:var(--clay-dark);}
-
-  /* actualités */
-  .actu-filters{display:flex;gap:8px;padding:12px 14px 4px;}
-
   .toast{
     position:absolute;bottom:96px;left:50%;transform:translateX(-50%);
     background:var(--ink);color:var(--paper);padding:10px 16px;border-radius:30px;
     font-size:12.5px;z-index:80;box-shadow:0 8px 20px rgba(0,0,0,0.4);
-    display:none;white-space:nowrap;max-width:88%;overflow:hidden;text-overflow:ellipsis;
+    display:none;white-space:nowrap;
   }
   .toast.show{display:block;animation:fadeup .25s ease-out;}
   @keyframes fadeup{from{opacity:0;transform:translate(-50%,8px)}to{opacity:1;transform:translate(-50%,0)}}
-
-  /* lightbox plein écran (zoom photo, lecture seule) */
-  #lightbox{
-    position:absolute;inset:0;background:rgba(0,0,0,0.92);z-index:150;
-    display:none;align-items:center;justify-content:center;
-  }
-  #lightbox.active{display:flex;}
-  #lightbox img{max-width:92%;max-height:80vh;object-fit:contain;border-radius:8px;}
-  #lightbox .lb-close{
-    position:absolute;top:18px;right:18px;width:36px;height:36px;border-radius:50%;
-    background:rgba(255,255,255,0.12);border:none;color:#fff;font-size:18px;cursor:pointer;
-  }
-  #lightbox .lb-nav{
-    position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:50%;
-    background:rgba(255,255,255,0.12);border:none;color:#fff;font-size:18px;cursor:pointer;
-  }
-  #lightbox .lb-prev{left:14px;}
-  #lightbox .lb-next{right:14px;}
-
-  /* halo de localisation sur la carte */
-  .kengela-locate-pulse{
-    width:26px;height:26px;border-radius:50%;background:rgba(201,121,58,0.35);
-    border:2px solid var(--clay);animation:kpulse 1.4s ease-out infinite;
-  }
-  @keyframes kpulse{0%{transform:scale(0.5);opacity:1;}100%{transform:scale(2.2);opacity:0;}}
 
   .leaflet-popup-content-wrapper{border-radius:10px;font-family:'Inter';font-size:12.5px;}
 
   ::-webkit-scrollbar{width:0;height:0;}
 
   /* ---- boutons : retour tactile ---- */
-  .bigbtn, .ghostbtn, .chip, .navbtn, .fab, .card, .catbtn, .gravopt, .confbtn, .rchip, .projpick, .photo-add-buttons label{
+  .bigbtn, .ghostbtn, .chip, .navbtn, .fab, .card, .catbtn, .gravopt, .confbtn, .rchip{
     transition:transform .1s ease, background .15s ease, opacity .15s ease;
   }
   .bigbtn:active, .fab:active{transform:scale(0.97);}
-  .catbtn:active, .gravopt:active, .confbtn:active, .rchip:active, .projpick:active{transform:scale(0.96);}
-</style>
-</head>
-<body>
-<div id="app">
+  .catbtn:active, .gravopt:active, .confbtn:active, .rchip:active{transform:scale(0.96);}
 
-  <header class="topbar">
-    <div class="brand">
-      <div class="mark">K</div>
-      <div class="txt">
-        <div class="name display">KENGELA</div>
-        <div class="tag">Observer · Localiser · Documenter</div>
-      </div>
-    </div>
-    <div class="topbar-actions">
-      <div class="status-pill" id="netPill"><span class="dot"></span><span id="netLbl">En ligne</span></div>
-      <button class="iconbtn" id="btnProfil" title="Mon profil" aria-label="Mon profil">👤</button>
-    </div>
-  </header>
+  /* ---- barre de recherche ---- */
+  .searchbar{
+    display:flex;align-items:center;gap:8px;margin:12px 14px 4px;
+    background:var(--surface);border:1px solid var(--line);border-radius:12px;
+    padding:9px 12px;
+  }
+  .searchbar input{
+    flex:1;background:none;border:none;outline:none;color:var(--paper);font-size:13px;font-family:'Inter';
+  }
+  .searchbar input::placeholder{color:#6E8A7E;}
+  .searchbar .ic{font-size:14px;color:#8FA69B;}
+  .searchbar .clearx{cursor:pointer;color:#8FA69B;font-size:13px;padding:2px 4px;display:none;}
+  .searchbar.has-text .clearx{display:block;}
 
-  <main>
-    <!-- ================= CARTE ================= -->
-    <section class="view active" id="view-carte">
-      <div id="map"></div>
-      <div class="map-toolbar">
-        <button class="chip active" data-layer="danger">⚠️ Dangers</button>
-        <button class="chip active" data-layer="travaux">🏗️ Travaux</button>
-      </div>
-      <div class="searchbar" id="searchbar">
-        <span class="ic">🔎</span>
-        <input type="text" id="searchInput" placeholder="Rechercher un signalement, un lieu, une catégorie…">
-        <span class="clearx" id="searchClear">✕</span>
-      </div>
-      <div class="section-title">Activité récente <span class="stamp">démo — RDC</span></div>
-      <div class="feed" id="feed"></div>
-    </section>
+  /* ---- icônes top bar ---- */
+  .topbar-actions{display:flex;align-items:center;gap:8px;}
+  .iconbtn{
+    width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:transparent;
+    color:var(--paper);font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  }
+  .iconbtn:active{transform:scale(0.9);background:rgba(239,233,216,0.08);}
 
-    <!-- ================= AUTOUR DE MOI ================= -->
-    <section class="view" id="view-autour">
-      <div class="section-title" style="padding-top:16px;">📍 Autour de moi</div>
-      <div class="radiusrow" id="radiusRow"></div>
-      <div class="around-summary" id="aroundSummary"></div>
-      <div class="feed" id="aroundFeed"></div>
-    </section>
+  /* ---- confirmations : état verrouillé ---- */
+  .confbtn.locked{opacity:0.45;pointer-events:none;}
+  .confbtn.picked.locked{opacity:1;}
 
-    <!-- ================= ACTUALITÉS ================= -->
-    <section class="view" id="view-actualites">
-      <div class="section-title" style="padding-top:16px;">📰 Actualités <span class="stamp">toute l'activité</span></div>
-      <div class="actu-filters" id="actuFilters">
-        <button class="chip active" data-filter="tout">Tout</button>
-        <button class="chip" data-filter="danger">⚠️ Dangers</button>
-        <button class="chip" data-filter="travail">🏗️ Travaux</button>
-      </div>
-      <div class="feed" id="actuFeed"></div>
-    </section>
-  </main>
-
-  <nav class="bottomnav">
-    <button class="navbtn active" data-tab="carte"><span class="ic">🗺️</span>Explorer</button>
-    <button class="navbtn" data-tab="autour"><span class="ic">📍</span>Autour</button>
-    <div class="fab" id="btnSignaler"><span class="fab-emoji">⚠️</span><span class="fab-label">Signaler un danger</span></div>
-    <button class="navbtn" data-tab="actualites"><span class="ic">📰</span>Actualités</button>
-    <button class="navbtn" data-tab="profil-nav"><span class="ic">👤</span>Profil</button>
-  </nav>
-
-  <div class="toast" id="toast"></div>
-
-  <!-- ============ SHEET: SIGNALER ============ -->
-  <div class="sheet-overlay" id="sheetSignaler">
-    <div class="sheet">
-      <div class="drag-handle"></div>
-      <div class="sheet-head">
-        <button class="backbtn" id="signalerBackBtn" title="Retour" aria-label="Retour">←</button>
-        <h2 id="signalerHeadTitle">Signaler</h2>
-        <button class="closebtn" data-close title="Fermer" aria-label="Fermer">✕</button>
-      </div>
-      <div class="progress" id="signalerProgress"></div>
-      <div class="sheet-body" id="signalerBody"></div>
-    </div>
-  </div>
-
-  <!-- ============ SHEET: FICHE SIGNALEMENT (lecture seule) ============ -->
-  <div class="sheet-overlay" id="sheetFiche">
-    <div class="sheet">
-      <div class="drag-handle"></div>
-      <div class="sheet-head">
-        <button class="backbtn" data-close title="Retour" aria-label="Retour">←</button>
-        <h2>Fiche du signalement</h2>
-        <button class="closebtn" data-close title="Fermer" aria-label="Fermer">✕</button>
-      </div>
-      <div class="sheet-body" id="ficheBody"></div>
-    </div>
-  </div>
-
-  <!-- ============ SHEET: FICHE PROJET (lecture seule) ============ -->
-  <div class="sheet-overlay" id="sheetProjet">
-    <div class="sheet">
-      <div class="drag-handle"></div>
-      <div class="sheet-head">
-        <button class="backbtn" data-close title="Retour" aria-label="Retour">←</button>
-        <h2>Fiche du chantier</h2>
-        <button class="closebtn" data-close title="Fermer" aria-label="Fermer">✕</button>
-      </div>
-      <div class="sheet-body" id="projetBody"></div>
-    </div>
-  </div>
-
-  <!-- ============ SHEET: PROFIL ============ -->
-  <div class="sheet-overlay" id="sheetProfil">
-    <div class="sheet">
-      <div class="drag-handle"></div>
-      <div class="sheet-head">
-        <button class="backbtn" data-close title="Retour" aria-label="Retour">←</button>
-        <h2>Mon profil</h2>
-        <button class="closebtn" data-close title="Fermer" aria-label="Fermer">✕</button>
-      </div>
-      <div class="sheet-body" id="profilBody"></div>
-    </div>
-  </div>
-
-  <!-- ============ LIGHTBOX PHOTO (zoom, lecture seule) ============ -->
-  <div id="lightbox">
-    <button class="lb-close" id="lbClose">✕</button>
-    <button class="lb-nav lb-prev" id="lbPrev">‹</button>
-    <img id="lbImg" src="">
-    <button class="lb-nav lb-next" id="lbNext">›</button>
-  </div>
-
-  <!-- ============ SPLASH ============ -->
-  <div id="splash">
-    <div class="splash-mark">K</div>
-    <div class="splash-name display">KENGELA</div>
-    <div class="splash-tag">Observer · Localiser · Documenter</div>
-    <div class="splash-loader"><div class="splash-loader-bar"></div></div>
-    <div class="splash-msg" id="splashMsg">Chargement des données du terrain…</div>
-  </div>
-
-</div>
-
-<style>
   /* ---- splash screen ---- */
   #splash{
     position:absolute;inset:0;z-index:200;background:radial-gradient(circle at 50% 30%, #1B3D32, var(--bg) 70%);
@@ -648,70 +351,136 @@
   @keyframes load{0%{transform:translateX(-100%);}100%{transform:translateX(350%);}}
   .splash-msg{font-size:11.5px;color:#7FA396;margin-top:14px;font-family:'IBM Plex Mono';}
 
-  /* =========================================================
-     VERSION WEB / BUREAU (grand écran) — activée automatiquement
-     à partir de 900px de large. La version « application mobile »
-     ci-dessus reste inchangée en dessous de cette largeur.
-     ========================================================= */
-  @media (min-width: 900px){
-    body{ align-items:flex-start; padding:0; }
-    #app{
-      max-width:1240px; min-height:100vh;
-      box-shadow:none; overflow:visible;
-    }
-    header.topbar{ order:1; position:sticky; top:0; padding:18px 36px; }
-    nav.bottomnav{
-      order:2; position:static; height:auto; width:100%;
-      justify-content:flex-start; gap:28px; padding:10px 36px;
-      border-top:none; border-bottom:1px solid var(--line); background:var(--surface);
-    }
-    main{ order:3; padding-bottom:40px; }
-    .navbtn{ flex-direction:row; gap:7px; font-size:13px; }
-    .navbtn .ic{ font-size:16px; }
-    .fab{
-      width:auto; height:auto; border-radius:10px; margin-top:0; border:none;
-      padding:11px 20px; font-size:13px; font-weight:800; gap:8px;
-      display:inline-flex; align-items:center; order:99; margin-left:auto;
-    }
-    .fab-label{ display:inline; font-family:'Inter'; }
-
-    #view-carte{
-      display:grid;
-      grid-template-columns: 1.35fr 1fr;
-      grid-template-rows: auto auto 1fr;
-      column-gap:28px; row-gap:14px;
-      padding:24px 36px 10px;
-      align-items:start;
-    }
-    #map{
-      grid-column:1; grid-row:1 / span 3;
-      height:74vh; min-height:520px; border-radius:18px; overflow:hidden;
-    }
-    .map-toolbar{ grid-column:2; grid-row:1; padding:0; background:none; border:none; }
-    .searchbar{ grid-column:2; grid-row:2; margin:0; }
-    .section-title{ grid-column:2; grid-row:3; padding:14px 0 4px; align-self:start; }
-    #feed{
-      grid-column:2; grid-row:4;
-      max-height:calc(74vh - 40px); overflow-y:auto; padding:0; margin:0;
-    }
-
-    #view-autour{ padding:0 36px; }
-    #view-autour .radiusrow{ padding:0 0 14px; max-width:420px; }
-    #view-autour .around-summary{ padding:0 0 18px; max-width:640px; }
-    #view-autour #aroundFeed{
-      display:grid; grid-template-columns:repeat(auto-fill, minmax(300px,1fr)); gap:12px;
-    }
-
-    #view-actualites{ padding:0 36px; }
-    #actuFeed{ display:grid; grid-template-columns:repeat(auto-fill, minmax(300px,1fr)); gap:12px; padding:0; }
-
-    .sheet-overlay{ align-items:center; padding:20px; }
-    .sheet{ max-width:560px; width:100%; border-radius:20px; max-height:88vh; }
-    .drag-handle{ display:none; }
-
-    .empty{ grid-column:1 / -1; }
+  /* ---- badge notifications ---- */
+  .notif-dot{
+    position:absolute;top:-2px;right:-2px;width:9px;height:9px;border-radius:50%;
+    background:var(--clay);border:2px solid var(--surface);
   }
 </style>
+</head>
+<body>
+<div id="app">
+
+  <header class="topbar">
+    <div class="brand">
+      <div class="mark">K</div>
+      <div class="txt">
+        <div class="name display">KENGELA</div>
+        <div class="tag">Observer · Localiser · Documenter</div>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <div class="status-pill" id="netPill"><span class="dot"></span><span id="netLbl">En ligne</span></div>
+      <button class="iconbtn" id="btnProfil" title="Mon profil" aria-label="Mon profil" style="position:relative;">👤</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- ================= CARTE ================= -->
+    <section class="view active" id="view-carte">
+      <div id="map"></div>
+      <div class="map-toolbar">
+        <button class="chip active" data-layer="danger">⚠️ Dangers</button>
+        <button class="chip active" data-layer="travaux">🏗️ Travaux</button>
+        <button class="chip active" data-layer="infra">🏢 Infrastructures</button>
+      </div>
+      <div class="searchbar" id="searchbar">
+        <span class="ic">🔎</span>
+        <input type="text" id="searchInput" placeholder="Rechercher un signalement, un lieu, une catégorie…">
+        <span class="clearx" id="searchClear">✕</span>
+      </div>
+      <div class="section-title">Activité récente <span class="stamp">démo — RDC</span></div>
+      <div class="feed" id="feed"></div>
+    </section>
+
+    <!-- ================= AUTOUR DE MOI ================= -->
+    <section class="view" id="view-autour">
+      <div class="section-title" style="padding-top:16px;">📍 Autour de moi</div>
+      <div class="radiusrow" id="radiusRow"></div>
+      <div class="around-summary" id="aroundSummary"></div>
+      <div class="feed" id="aroundFeed"></div>
+    </section>
+
+    <!-- ================= TRAVAUX ================= -->
+    <section class="view" id="view-travaux">
+      <div class="section-title" style="padding-top:16px;">🏗️ Travaux & chantiers <span class="stamp">données de démonstration</span></div>
+      <div id="projList"></div>
+    </section>
+  </main>
+
+  <nav class="bottomnav">
+    <button class="navbtn active" data-tab="carte"><span class="ic">🗺️</span>Explorer</button>
+    <button class="navbtn" data-tab="autour"><span class="ic">📍</span>Autour</button>
+    <div class="fab" id="btnSignaler">⚠️</div>
+    <button class="navbtn" data-tab="travaux"><span class="ic">🏗️</span>Travaux</button>
+    <button class="navbtn" data-tab="profil-nav"><span class="ic">👤</span>Profil</button>
+  </nav>
+
+  <div class="toast" id="toast"></div>
+
+  <!-- ============ SHEET: SIGNALER ============ -->
+  <div class="sheet-overlay" id="sheetSignaler">
+    <div class="sheet" id="sheetSignalerInner">
+      <div class="drag-handle"></div>
+      <div class="sheet-head">
+        <button class="backbtn" id="signalerBackBtn" title="Retour" aria-label="Retour">←</button>
+        <h2 id="signalerHeadTitle">Signaler</h2>
+        <button class="closebtn" data-close="sheetSignaler" title="Fermer" aria-label="Fermer">✕</button>
+      </div>
+      <div class="progress" id="signalerProgress"></div>
+      <div class="sheet-body" id="signalerBody"></div>
+    </div>
+  </div>
+
+  <!-- ============ SHEET: FICHE DANGER ============ -->
+  <div class="sheet-overlay" id="sheetFiche">
+    <div class="sheet">
+      <div class="drag-handle"></div>
+      <div class="sheet-head">
+        <button class="backbtn" data-close="sheetFiche" title="Retour" aria-label="Retour">←</button>
+        <h2>Fiche du signalement</h2>
+        <button class="closebtn" data-close="sheetFiche" title="Fermer" aria-label="Fermer">✕</button>
+      </div>
+      <div class="sheet-body" id="ficheBody"></div>
+    </div>
+  </div>
+
+  <!-- ============ SHEET: FICHE PROJET ============ -->
+  <div class="sheet-overlay" id="sheetProjet">
+    <div class="sheet">
+      <div class="drag-handle"></div>
+      <div class="sheet-head">
+        <button class="backbtn" data-close="sheetProjet" title="Retour" aria-label="Retour">←</button>
+        <h2>Fiche du projet</h2>
+        <button class="closebtn" data-close="sheetProjet" title="Fermer" aria-label="Fermer">✕</button>
+      </div>
+      <div class="sheet-body" id="projetBody"></div>
+    </div>
+  </div>
+
+  <!-- ============ SHEET: PROFIL ============ -->
+  <div class="sheet-overlay" id="sheetProfil">
+    <div class="sheet">
+      <div class="drag-handle"></div>
+      <div class="sheet-head">
+        <button class="backbtn" data-close="sheetProfil" title="Retour" aria-label="Retour">←</button>
+        <h2>Mon profil</h2>
+        <button class="closebtn" data-close="sheetProfil" title="Fermer" aria-label="Fermer">✕</button>
+      </div>
+      <div class="sheet-body" id="profilBody"></div>
+    </div>
+  </div>
+
+  <!-- ============ SPLASH ============ -->
+  <div id="splash">
+    <div class="splash-mark">K</div>
+    <div class="splash-name display">KENGELA</div>
+    <div class="splash-tag">Observer · Localiser · Documenter</div>
+    <div class="splash-loader"><div class="splash-loader-bar"></div></div>
+    <div class="splash-msg" id="splashMsg">Chargement des données du terrain…</div>
+  </div>
+
+</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
@@ -719,13 +488,19 @@
 
 /* ===================== STOCKAGE — COMPATIBILITÉ HORS CLAUDE.AI =====================
    window.storage n'existe que dans l'interface Claude.ai. Quand ce fichier est ouvert
-   directement dans un navigateur, on fabrique ici un équivalent basé sur localStorage
-   (ou sur la mémoire si localStorage est indisponible), pour un fonctionnement 100%
-   autonome. */
+   directement dans un navigateur (double-clic, hébergement statique, clé USB pour une
+   démonstration hors-ligne...), on fabrique ici un équivalent basé sur localStorage
+   (ou sur la mémoire si même localStorage est indisponible), pour que l'application
+   fonctionne de façon totalement autonome. */
 if(!window.storage){
   let memoryStore = {};
   let usesLocalStorage = false;
-  try{ localStorage.setItem('__kengela_test__','1'); localStorage.removeItem('__kengela_test__'); usesLocalStorage = true; }catch(e){ usesLocalStorage = false; }
+  try{
+    localStorage.setItem('__kengela_test__','1');
+    localStorage.removeItem('__kengela_test__');
+    usesLocalStorage = true;
+  }catch(e){ usesLocalStorage = false; }
+
   const STORE_KEY = 'kengela_local_storage_v1';
   function readStore(){
     if(!usesLocalStorage) return memoryStore;
@@ -733,26 +508,34 @@ if(!window.storage){
   }
   function writeStore(obj){
     if(!usesLocalStorage){ memoryStore = obj; return; }
-    try{ localStorage.setItem(STORE_KEY, JSON.stringify(obj)); }catch(e){}
+    try{ localStorage.setItem(STORE_KEY, JSON.stringify(obj)); }catch(e){ /* quota dépassé, etc. */ }
   }
   function nsKey(key, shared){ return (shared ? 'shared:' : 'user:') + key; }
+
   window.storage = {
     async get(key, shared){
-      const store = readStore(); const k = nsKey(key, shared);
+      const store = readStore();
+      const k = nsKey(key, shared);
       if(!(k in store)) return null;
       return {key, value: store[k], shared: !!shared};
     },
     async set(key, value, shared){
-      const store = readStore(); store[nsKey(key, shared)] = value; writeStore(store);
+      const store = readStore();
+      store[nsKey(key, shared)] = value;
+      writeStore(store);
       return {key, value, shared: !!shared};
     },
     async delete(key, shared){
-      const store = readStore(); const k = nsKey(key, shared);
-      const existed = k in store; delete store[k]; writeStore(store);
+      const store = readStore();
+      const k = nsKey(key, shared);
+      const existed = k in store;
+      delete store[k];
+      writeStore(store);
       return {key, deleted: existed, shared: !!shared};
     },
     async list(prefix, shared){
-      const store = readStore(); const pfx = nsKey(prefix || '', shared);
+      const store = readStore();
+      const pfx = nsKey(prefix || '', shared);
       const keys = Object.keys(store).filter(k => k.startsWith(pfx)).map(k => k.slice(nsKey('', shared).length));
       return {keys, prefix, shared: !!shared};
     }
@@ -776,10 +559,10 @@ const TRAVAUX_TYPES = {
   "Autres": ["Autre"]
 };
 const GRAVITY = [
-  {key:'faible', emoji:'🟢', label:'Faible', desc:"Situation à surveiller, pas de risque immédiat.", color:'#4C9A6B'},
-  {key:'moderee', emoji:'🟠', label:'Modérée', desc:"Gêne réelle, risque limité mais à corriger.", color:'#D9932E'},
-  {key:'elevee', emoji:'🔴', label:'Élevée', desc:"Danger sérieux pour les personnes ou les biens.", color:'#C9502F'},
-  {key:'critique', emoji:'🚨', label:'Critique', desc:"Danger immédiat, intervention urgente nécessaire.", color:'#8A2A4A'}
+  {key:'faible', emoji:'🟢', label:'Faible', desc:"Situation à surveiller, pas de risque immédiat.", color:'var(--g-faible)'},
+  {key:'moderee', emoji:'🟠', label:'Modérée', desc:"Gêne réelle, risque limité mais à corriger.", color:'var(--g-moderee)'},
+  {key:'elevee', emoji:'🔴', label:'Élevée', desc:"Danger sérieux pour les personnes ou les biens.", color:'var(--g-elevee)'},
+  {key:'critique', emoji:'🚨', label:'Critique', desc:"Danger immédiat, intervention urgente nécessaire.", color:'var(--g-critique)'}
 ];
 const STATUSES = ['Signalé','En vérification','Confirmé','Pris en charge','Résolu'];
 const CITIES = [
@@ -789,70 +572,27 @@ const CITIES = [
   {name:'Kisangani', lat:0.5150, lng:25.1912},
   {name:'Matadi', lat:-5.8166, lng:13.4500}
 ];
-const MAX_PHOTOS = 5;
 const PLACEHOLDER_IMG = "data:image/svg+xml;utf8," + encodeURIComponent(
   `<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><rect width='100%' height='100%' fill='%231B3D32'/><text x='50%' y='50%' fill='%2393A79D' font-size='14' font-family='sans-serif' text-anchor='middle' dy='.3em'>photo</text></svg>`
 );
-const LINK_ICONS = {
-  presse:'📰', pdf:'📄', administratif:'🏛️', etude:'🔬', video:'🎬', autre:'🔗'
-};
-function guessLinkIcon(url){
-  const u = (url||'').toLowerCase();
-  if(u.endsWith('.pdf')) return LINK_ICONS.pdf;
-  if(u.includes('youtube.com')||u.includes('youtu.be')||u.includes('vimeo.com')) return LINK_ICONS.video;
-  if(u.includes('.gov')||u.includes('.gouv')) return LINK_ICONS.administratif;
-  return LINK_ICONS.autre;
-}
-
-/* ===================== GRADES / POINTS DE VIGILANCE ===================== */
-const GRADES = [
-  {min:0,   key:'inactif',    emoji:'🌑', label:'Citoyen inactif'},
-  {min:10,  key:'observateur',emoji:'👀', label:'Citoyen observateur'},
-  {min:30,  key:'vigilant',   emoji:'🔍', label:'Citoyen vigilant'},
-  {min:80,  key:'sentinelle', emoji:'🛡️', label:'Sentinelle de quartier'},
-  {min:180, key:'veilleur',   emoji:'🔥', label:'Veilleur engagé'},
-  {min:400, key:'grand',      emoji:'⭐', label:'Grand Veilleur Kengela'}
-];
-const POINTS_RULES = {
-  danger_signale: {pts:10, label:'Signalement d\u2019un danger'},
-  travail_observe: {pts:6, label:'Observation d\u2019un chantier'},
-  lien_ajoute: {pts:1, label:'Source ajoutée à un signalement'},
-  confirmation: {pts:2, label:'Confirmation citoyenne'},
-  suivi_projet: {pts:1, label:'Suivi d\u2019un chantier'}
-};
-function gradeForPoints(total){
-  let current = GRADES[0];
-  for(const g of GRADES){ if(total >= g.min) current = g; }
-  const idx = GRADES.indexOf(current);
-  const next = GRADES[idx+1] || null;
-  return {current, next};
-}
 
 /* ===================== ÉTAT ===================== */
 let reports = [];
 let projects = [];
-let followed = {};
-let myReportIds = new Set();
-let myConfirmations = {};
-let myPoints = {total:0, log:[]};
+let followed = {};   // projet suivis, stocké localement (par utilisateur)
+let myReportIds = new Set(); // mes propres signalements, stocké localement (par utilisateur)
+let myConfirmations = {};    // { reportId: 'oui'|'non'|'ne_sais_pas' }, une seule réponse par personne
 let offlineQueue = [];
-let map, layerGroups = {danger:null, travaux:null};
+let map, layerGroups = {danger:null, travaux:null, infra:null};
 let userPos = null;
-let locateMarker = null;
-let searchQuery = '';
-let actuFilter = 'tout';
-let lbPhotos = [], lbIndex = 0;
 
-let draft = {};
+let draft = {}; // signalement en cours de création
 let step = 0;
-let stepSequence = [];
-let signalerMode = 'choice';
 
 /* ===================== UTILS ===================== */
 function uid(prefix){ return prefix + '-' + Math.random().toString(36).slice(2,8).toUpperCase(); }
 function fmtDate(d){
   const dt = new Date(d);
-  if(isNaN(dt.getTime())) return d;
   return dt.toLocaleDateString('fr-FR',{day:'2-digit',month:'short',year:'numeric'}) + ' · ' + dt.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
 }
 function haversine(lat1,lng1,lat2,lng2){
@@ -869,15 +609,9 @@ function nearestCity(lat,lng){
 function toast(msg){
   const t=document.getElementById('toast');
   t.textContent=msg; t.classList.add('show');
-  clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove('show'),2600);
+  clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove('show'),2400);
 }
-function escapeHtml(s){ const d=document.createElement('div'); d.textContent=s||''; return d.innerHTML; }
-function normalizeUrl(u){
-  u = (u||'').trim();
-  if(!u) return '';
-  if(!/^https?:\/\//i.test(u)) u = 'https://' + u;
-  return u;
-}
+function slug(s){return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-');}
 
 function compressImage(file, maxW){
   return new Promise((resolve,reject)=>{
@@ -900,31 +634,6 @@ function compressImage(file, maxW){
   });
 }
 
-/* Compatibilité ascendante : un ancien signalement n'a que `photo` (chaîne
-   unique ou null). On le convertit systématiquement en `photos` (tableau). */
-function normalizeReport(r){
-  if(!r.photos){
-    r.photos = r.photo ? [r.photo] : [];
-  }
-  if(!r.links) r.links = [];
-  if(!r.confirmations) r.confirmations = {oui:0,non:0,ne_sais_pas:0};
-  if(!r.history) r.history = [];
-  return r;
-}
-
-/* ===================== GESTIONNAIRE CENTRAL DES FENÊTRES ===================== */
-const SHEET_IDS = ['sheetSignaler','sheetFiche','sheetProjet','sheetProfil'];
-function closeAllSheets(){
-  SHEET_IDS.forEach(id=>document.getElementById(id).classList.remove('active'));
-}
-function openSheet(id){
-  closeAllSheets();
-  document.getElementById(id).classList.add('active');
-}
-function closeSheet(id){
-  document.getElementById(id).classList.remove('active');
-}
-
 /* ===================== STOCKAGE (simule le backend Kengela) ===================== */
 async function loadAll(){
   try{
@@ -932,7 +641,7 @@ async function loadAll(){
     const ids = idx ? JSON.parse(idx.value) : [];
     reports = [];
     for(const id of ids){
-      try{ const r = await window.storage.get('kengela:report:'+id, true); if(r) reports.push(normalizeReport(JSON.parse(r.value))); }catch(e){}
+      try{ const r = await window.storage.get('kengela:report:'+id, true); if(r) reports.push(JSON.parse(r.value)); }catch(e){}
     }
   }catch(e){ reports = []; }
 
@@ -960,14 +669,18 @@ async function loadAll(){
     myConfirmations = c ? JSON.parse(c.value) : {};
   }catch(e){ myConfirmations = {}; }
 
-  try{
-    const p = await window.storage.get('kengela:points', false);
-    myPoints = p ? JSON.parse(p.value) : {total:0, log:[]};
-  }catch(e){ myPoints = {total:0, log:[]}; }
-
   reports.forEach(r=> r.mine = myReportIds.has(r.id));
 
   if(projects.length===0) await seedDemoData();
+}
+
+async function markAsMine(reportId){
+  myReportIds.add(reportId);
+  try{ await window.storage.set('kengela:my_report_ids', JSON.stringify([...myReportIds]), false); }catch(e){}
+}
+
+async function saveMyConfirmations(){
+  try{ await window.storage.set('kengela:my_confirmations', JSON.stringify(myConfirmations), false); }catch(e){}
 }
 
 async function saveReport(r){
@@ -976,7 +689,7 @@ async function saveReport(r){
     await window.storage.set('kengela:report:'+r.id, JSON.stringify(r), true);
     const ids = reports.map(x=>x.id);
     await window.storage.set('kengela:reports:index', JSON.stringify(ids), true);
-  }catch(e){ toast('Stockage indisponible — conservé pour cette session.'); }
+  }catch(e){ toast('Stockage indisponible — conservé localement pour cette session.'); }
 }
 async function updateReport(r){
   try{ await window.storage.set('kengela:report:'+r.id, JSON.stringify(r), true); }catch(e){}
@@ -984,21 +697,8 @@ async function updateReport(r){
 async function saveProject(p){
   try{ await window.storage.set('kengela:project:'+p.id, JSON.stringify(p), true); }catch(e){}
 }
-async function saveFollowed(){ try{ await window.storage.set('kengela:followed', JSON.stringify(followed), false); }catch(e){} }
-async function markAsMine(reportId){
-  myReportIds.add(reportId);
-  try{ await window.storage.set('kengela:my_report_ids', JSON.stringify([...myReportIds]), false); }catch(e){}
-}
-async function saveMyConfirmations(){ try{ await window.storage.set('kengela:my_confirmations', JSON.stringify(myConfirmations), false); }catch(e){} }
-async function savePoints(){ try{ await window.storage.set('kengela:points', JSON.stringify(myPoints), false); }catch(e){} }
-
-async function addPoints(ruleKey){
-  const rule = POINTS_RULES[ruleKey];
-  if(!rule) return;
-  myPoints.total += rule.pts;
-  myPoints.log.unshift({date:new Date().toISOString(), label:rule.label, pts:rule.pts});
-  myPoints.log = myPoints.log.slice(0,40);
-  await savePoints();
+async function saveFollowed(){
+  try{ await window.storage.set('kengela:followed', JSON.stringify(followed), false); }catch(e){}
 }
 
 async function seedDemoData(){
@@ -1011,16 +711,17 @@ async function seedDemoData(){
   ];
   for(const s of seedProjects){
     const c = CITIES.find(c=>c.name===s.city);
-    const jlat = c.lat + (Math.random()-0.5)*0.05, jlng = c.lng + (Math.random()-0.5)*0.05;
+    const jitterLat = c.lat + (Math.random()-0.5)*0.05;
+    const jitterLng = c.lng + (Math.random()-0.5)*0.05;
     const p = {
-      id: uid('PRJ'), demo:true, createdAt:'2026-06-01',
-      name:s.name, city:s.city, lat:jlat, lng:jlng,
+      id: uid('PRJ'), demo:true,
+      name:s.name, city:s.city, lat:jitterLat, lng:jitterLng,
       type:s.type, sub:s.sub, maitre:s.maitre, entreprise:s.entreprise,
       dateDebut:'2026-02-10', dateFin:'2026-12-20', budget:'Non communiqué',
       statut:s.statut, avancement:s.avancement,
       observations:[
-        {date:'2026-06-02', comment:'Signalement citoyen — début des travaux constaté sur site.', photos:[]},
-        {date:'2026-07-18', comment:'Nouvelle photo transmise — structure principale visible.', photos:[]}
+        {date:'2026-06-02', label:'Signalement citoyen — début des travaux constaté sur site.'},
+        {date:'2026-07-18', label:'Nouvelle photo transmise — structure principale visible.'}
       ]
     };
     projects.push(p);
@@ -1029,32 +730,38 @@ async function seedDemoData(){
   try{ await window.storage.set('kengela:projects:index', JSON.stringify(projects.map(p=>p.id)), true); }catch(e){}
 
   const seedReports = [
-    {city:'Kinshasa', group:'Infrastructures', cat:'Trou dans la chaussée', gravity:'elevee', comment:"Important trou au milieu de la chaussée, dangereux pour les véhicules et les motos.", status:'En vérification'},
-    {city:'Goma', group:'Environnement', cat:'Érosion', gravity:'critique', comment:"Ravinement important qui menace deux maisons en contrebas.", status:'Signalé'},
-    {city:'Lubumbashi', group:'Infrastructures', cat:'Éclairage public défaillant', gravity:'moderee', comment:"Plusieurs lampadaires éteints depuis deux semaines sur l'avenue principale.", status:'Confirmé'}
+    {city:'Kinshasa', type:'danger', group:'Infrastructures', cat:'Trou dans la chaussée', gravity:'elevee', comment:"Important trou au milieu de la chaussée, dangereux pour les véhicules et les motos.", status:'En vérification'},
+    {city:'Goma', type:'danger', group:'Environnement', cat:'Érosion', gravity:'critique', comment:"Ravinement important qui menace deux maisons en contrebas.", status:'Signalé'},
+    {city:'Lubumbashi', type:'danger', group:'Infrastructures', cat:'Éclairage public défaillant', gravity:'moderee', comment:"Plusieurs lampadaires éteints depuis deux semaines sur l'avenue principale.", status:'Confirmé'}
   ];
   for(const s of seedReports){
     const c = CITIES.find(c=>c.name===s.city);
-    const r = normalizeReport({
+    const r = {
       id: uid('KEN'), demo:true, kind:'danger',
       group:s.group, category:s.cat, gravity:s.gravity, comment:s.comment,
-      photos:[], links:[], lat:c.lat+(Math.random()-0.5)*0.04, lng:c.lng+(Math.random()-0.5)*0.04,
+      photo:null, lat:c.lat+(Math.random()-0.5)*0.04, lng:c.lng+(Math.random()-0.5)*0.04,
       date:'2026-08-1'+Math.floor(Math.random()*8), status:s.status,
       confirmations:{oui:Math.floor(Math.random()*6),non:0,ne_sais_pas:0},
       history:[{date:'2026-08-15', label:'Signalement citoyen.'}]
-    });
+    };
     if(s.status!=='Signalé') r.history.push({date:'2026-08-17', label:'Signalement transmis pour vérification.'});
-    await saveReport(r); // saveReport ajoute déjà r en tête du tableau `reports` — aucun ajout manuel nécessaire
+    reports.push(r);
+    await saveReport(r);
   }
 }
 
 /* ===================== CARTE ===================== */
 function initMap(){
   map = L.map('map', {zoomControl:false, attributionControl:true}).setView([-2.5,23.5], 5.2);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {attribution:'&copy; OpenStreetMap', maxZoom:18}).addTo(map);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution:'&copy; OpenStreetMap',
+    maxZoom:18
+  }).addTo(map);
   layerGroups.danger = L.layerGroup().addTo(map);
   layerGroups.travaux = L.layerGroup().addTo(map);
+  layerGroups.infra = L.layerGroup().addTo(map);
 }
+function gravColor(g){ return (GRAVITY.find(x=>x.key===g)||{}).color || '#C9793A'; }
 function pinIcon(color, emoji){
   return L.divIcon({
     className:'',
@@ -1067,21 +774,23 @@ function pinIcon(color, emoji){
 function renderMap(){
   layerGroups.danger.clearLayers();
   layerGroups.travaux.clearLayers();
+  layerGroups.infra.clearLayers();
+
   reports.forEach(r=>{
     const g = GRAVITY.find(x=>x.key===r.gravity) || GRAVITY[0];
-    const emoji = r.kind==='travail' ? '🏗️' : g.emoji;
-    const color = r.kind==='travail' ? '#3E8FA6' : g.color;
-    const m = L.marker([r.lat,r.lng], {icon:pinIcon(color, emoji)});
+    const m = L.marker([r.lat,r.lng], {icon:pinIcon(replaceCssVar(g.color), g.emoji)});
     m.on('click', ()=>openFiche(r.id));
-    m.kengelaId = 'report-'+r.id;
     m.addTo(layerGroups.danger);
   });
   projects.forEach(p=>{
     const m = L.marker([p.lat,p.lng], {icon:pinIcon('#3E8FA6','🏗️')});
     m.on('click', ()=>openProjet(p.id));
-    m.kengelaId = 'project-'+p.id;
     m.addTo(layerGroups.travaux);
   });
+}
+function replaceCssVar(v){
+  const map = {'var(--g-faible)':'#4C9A6B','var(--g-moderee)':'#D9932E','var(--g-elevee)':'#C9502F','var(--g-critique)':'#8A2A4A'};
+  return map[v] || v;
 }
 
 document.querySelectorAll('.chip[data-layer]').forEach(chip=>{
@@ -1094,54 +803,30 @@ document.querySelectorAll('.chip[data-layer]').forEach(chip=>{
   });
 });
 
-/* Localise précisément un signalement ou un chantier sur la carte, avec un
-   halo pulsé, sans jamais recharger la page.
-   thenOpen / id (optionnels) permettent de rouvrir automatiquement la fiche
-   une fois la carte centrée — utilisés par le bouton 📍 rapide des cartes. */
-function locateOnMap(lat, lng, thenOpen, id){
-  closeAllSheets();
-  showTab('carte');
-  setTimeout(()=>{
-    map.invalidateSize();
-    map.flyTo([lat,lng], 16, {duration:0.9});
-    if(locateMarker){ map.removeLayer(locateMarker); locateMarker=null; }
-    const icon = L.divIcon({className:'', html:'<div class="kengela-locate-pulse"></div>', iconSize:[26,26], iconAnchor:[13,13]});
-    locateMarker = L.marker([lat,lng], {icon, interactive:false, zIndexOffset:-100}).addTo(map);
-    setTimeout(()=>{ if(locateMarker){ map.removeLayer(locateMarker); locateMarker=null; } }, 4000);
-    if(thenOpen==='fiche') setTimeout(()=>openFiche(id), 700);
-    if(thenOpen==='projet') setTimeout(()=>openProjet(id), 700);
-  }, 120);
-}
-
 /* ===================== FEED ===================== */
 function statusClass(s){ return 'st-' + s.replace(/\s+/g,'-'); }
 function reportCard(r){
   const g = GRAVITY.find(x=>x.key===r.gravity) || GRAVITY[0];
-  const cover = (r.photos && r.photos[0]) || PLACEHOLDER_IMG;
-  const typeTag = r.kind==='travail'
-    ? `<span class="type-tag travail">🏗️ Travail</span>`
-    : `<span class="type-tag danger">⚠️ Danger</span>`;
   return `<div class="card" onclick="Kengela.openFiche('${r.id}')">
-      <span class="locate-pin" title="Localiser sur la carte" onclick="event.stopPropagation();Kengela.locate(${r.lat},${r.lng},'fiche','${r.id}')">📍</span>
-      <img class="thumb" src="${cover}">
+      <img class="thumb" src="${r.photo || PLACEHOLDER_IMG}">
       <div class="body">
         <div class="row1">
-          <div class="cat">${escapeHtml(r.category)}</div>
-          <div class="grav">${r.kind==='travail'?'🏗️':g.emoji}</div>
+          <div class="cat">${r.category}</div>
+          <div class="grav">${g.emoji}</div>
         </div>
-        <div class="meta">${typeTag} · ${r.id} · ${nearestCity(r.lat,r.lng)} · ${fmtDate(r.date)}</div>
+        <div class="meta">${r.id} · ${nearestCity(r.lat,r.lng)} · ${fmtDate(r.date)}</div>
         <div class="comment">${escapeHtml(r.comment||'')}</div>
-        <div class="photocount">${(r.photos||[]).length>0 ? `📷 ${(r.photos||[]).length}/${MAX_PHOTOS} photo(s)` : 'Aucune photo'}${(r.links||[]).length ? ` · 🔗 ${r.links.length} source(s)` : ''}</div>
         <span class="badge ${statusClass(r.status)}" style="margin-top:6px;">${r.status}</span>
       </div>
     </div>`;
 }
+function escapeHtml(s){ const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
 
 function renderFeed(){
   const feed = document.getElementById('feed');
   if(reports.length===0){ feed.innerHTML = '<div class="empty">Aucun signalement pour le moment.<br>Soyez le premier à observer votre quartier.</div>'; return; }
   let list = [...reports];
-  if(searchQuery){
+  if(typeof searchQuery==='string' && searchQuery){
     list = list.filter(r=>{
       const hay = `${r.category} ${r.group} ${r.comment} ${nearestCity(r.lat,r.lng)} ${r.status}`.toLowerCase();
       return hay.includes(searchQuery);
@@ -1152,61 +837,14 @@ function renderFeed(){
   feed.innerHTML = sorted.slice(0,30).map(reportCard).join('');
 }
 
-/* ===================== ACTUALITÉS (fil chronologique unifié) ===================== */
-function buildActivityEvents(){
-  const events = [];
-  reports.forEach(r=>{
-    events.push({date:r.date, kind:r.kind==='travail'?'travail':'danger', render:reportCard(r)});
-  });
-  projects.forEach(p=>{
-    events.push({
-      date:p.createdAt || (p.observations[0] && p.observations[0].date) || '2026-01-01',
-      kind:'travail',
-      render: projCardCompact(p, 'Chantier enregistré')
-    });
-    (p.observations||[]).forEach(o=>{
-      events.push({date:o.date, kind:'travail', render: projCardCompact(p, o.comment, o)});
-    });
-  });
-  events.sort((a,b)=> new Date(b.date) - new Date(a.date));
-  return events;
-}
-function projCardCompact(p, text, obs){
-  const cover = (obs && obs.photos && obs.photos[0]) || PLACEHOLDER_IMG;
-  return `<div class="card" onclick="Kengela.openProjet('${p.id}')">
-      <span class="locate-pin" title="Localiser sur la carte" onclick="event.stopPropagation();Kengela.locate(${p.lat},${p.lng},'projet','${p.id}')">📍</span>
-      <img class="thumb" src="${cover}">
-      <div class="body">
-        <div class="row1"><div class="cat">${escapeHtml(p.name)}</div><div class="grav">🏗️</div></div>
-        <div class="meta"><span class="type-tag travail">🏗️ Travail</span> · ${p.city||''} · ${fmtDate(obs ? obs.date : (p.createdAt||''))}</div>
-        <div class="comment">${escapeHtml(text)}</div>
-      </div>
-    </div>`;
-}
-function renderActualites(){
-  const feed = document.getElementById('actuFeed');
-  const events = buildActivityEvents().filter(e => actuFilter==='tout' || e.kind===actuFilter);
-  if(events.length===0){ feed.innerHTML = '<div class="empty">Aucune activité pour ce filtre.</div>'; return; }
-  feed.innerHTML = events.slice(0,60).map(e=>e.render).join('');
-}
-document.getElementById('actuFilters').addEventListener('click', (e)=>{
-  const btn = e.target.closest('.chip[data-filter]');
-  if(!btn) return;
-  document.querySelectorAll('#actuFilters .chip').forEach(c=>c.classList.remove('active'));
-  btn.classList.add('active');
-  actuFilter = btn.dataset.filter;
-  renderActualites();
-});
-
-/* ===================== TRAVAUX (utilitaires réutilisés dans les fiches) ===================== */
+/* ===================== TRAVAUX ===================== */
 function projCard(p){
   const followedIcon = followed[p.id] ? '⭐' : '☆';
   return `<div class="proj-card" onclick="Kengela.openProjet('${p.id}')">
-    <span class="locate-pin" title="Localiser sur la carte" onclick="event.stopPropagation();Kengela.locate(${p.lat},${p.lng},'projet','${p.id}')">📍</span>
     <div class="proj-top">
       <div>
-        <div class="name">${escapeHtml(p.name)}</div>
-        <div class="city">${p.type} — ${p.sub} · ${p.city||''}</div>
+        <div class="name">${p.name}</div>
+        <div class="city">${p.city} · ${p.type} — ${p.sub}</div>
       </div>
       <span class="star" onclick="event.stopPropagation();Kengela.toggleFollow('${p.id}')">${followedIcon}</span>
     </div>
@@ -1214,44 +852,24 @@ function projCard(p){
     <div class="proj-foot"><span>${p.avancement}% avancé</span><span>${p.statut}</span></div>
   </div>`;
 }
+function renderProjList(){
+  document.getElementById('projList').innerHTML = projects.map(projCard).join('') ||
+    '<div class="empty">Aucun projet enregistré.</div>';
+}
 
-/* ===================== FICHE SIGNALEMENT (lecture seule) ===================== */
+/* ===================== FICHE DANGER ===================== */
 function openFiche(id){
   const r = reports.find(x=>x.id===id);
   if(!r) return;
   const g = GRAVITY.find(x=>x.key===r.gravity) || GRAVITY[0];
   const conf = r.confirmations || {oui:0,non:0,ne_sais_pas:0};
-  const photos = r.photos || [];
-
-  let galleryHtml;
-  if(photos.length===0){
-    galleryHtml = `<div class="photo-view-empty">Aucune photo pour ce signalement</div>`;
-  }else{
-    const thumbs = photos.map((src,i)=>`<div class="t ${i===0?'sel':''}" data-i="${i}" onclick="Kengela.viewPhotoSwap(this,${i})"><img src="${src}"></div>`).join('');
-    galleryHtml = `
-      <div class="photo-view-gallery" id="ficheGallery">
-        <div class="photo-view-main"><img id="ficheMainPhoto" src="${photos[0]}" onclick="Kengela.openLightbox(${JSON.stringify(photos).replace(/"/g,'&quot;')},0)"></div>
-        ${photos.length>1 ? `<div class="photo-view-thumbs">${thumbs}</div>` : ''}
-      </div>`;
-  }
-
-  const linksHtml = (r.links && r.links.length) ? `
-    <h4 style="font-size:12px;text-transform:uppercase;color:var(--ink-soft);margin:0 0 10px;">Sources et documents</h4>
-    <div class="view-links">
-      ${r.links.map(l=>`<a class="view-link-row" href="${escapeHtml(normalizeUrl(l.url))}" target="_blank" rel="noopener">
-          <span class="ic">${guessLinkIcon(l.url)}</span>
-          <div class="info"><div class="lt">${escapeHtml(l.title||'Source')}</div><div class="lu">${escapeHtml(l.url)}</div></div>
-          <span class="go">↗</span>
-        </a>`).join('')}
-    </div>` : '';
-
   document.getElementById('ficheBody').innerHTML = `
-    ${galleryHtml}
-    <div class="fiche-id">${r.kind==='travail'?'OBSERVATION':'SIGNAL'} ${r.id}${r.demo?' · démonstration':''}</div>
-    <div class="fiche-title">${escapeHtml(r.category)}</div>
+    <img class="fiche-photo" src="${r.photo || PLACEHOLDER_IMG}">
+    <div class="fiche-id">SIGNAL ${r.id}${r.demo?' · démonstration':''}</div>
+    <div class="fiche-title">${r.category}</div>
     <div class="fiche-meta">
       <span class="badge ${statusClass(r.status)}">${r.status}</span>
-      ${r.kind!=='travail' ? `<span class="badge" style="background:rgba(15,27,22,.08);color:var(--ink);">${g.emoji} ${g.label}</span>` : `<span class="badge" style="background:rgba(15,27,22,.08);color:var(--ink);">🏗️ Observation de travail</span>`}
+      <span class="badge" style="background:rgba(15,27,22,.08);color:var(--ink);">${g.emoji} ${g.label}</span>
     </div>
     <div class="fiche-meta" style="margin-top:-6px;">
       <span class="mono" style="font-size:11.5px;color:var(--ink-soft);">📍 ${nearestCity(r.lat,r.lng)} · ${r.lat.toFixed(4)}, ${r.lng.toFixed(4)}</span>
@@ -1260,8 +878,6 @@ function openFiche(id){
       <span class="mono" style="font-size:11.5px;color:var(--ink-soft);">🕒 Signalé le ${fmtDate(r.date)}</span>
     </div>
     <div class="fiche-comment">${escapeHtml(r.comment||'')}</div>
-    ${linksHtml}
-    <button class="locatebtn" onclick="Kengela.locate(${r.lat},${r.lng})">📍 Localiser précisément sur la carte</button>
     <div class="confidence"><span class="lv">Niveau 2</span> Signalement citoyen avec photo et position GPS automatique — nécessite vérification.</div>
 
     <h4 style="margin:0 0 10px;font-size:12px;text-transform:uppercase;color:var(--ink-soft);">Le problème existe-t-il toujours ?</h4>
@@ -1278,17 +894,8 @@ function openFiche(id){
     <h4 style="margin:22px 0 8px;font-size:12px;text-transform:uppercase;color:var(--ink-soft);">Historique</h4>
     <div class="timeline">${(r.history||[]).map(h=>`<div class="tlitem"><div class="d">${h.date}</div><div class="l">${escapeHtml(h.label)}</div></div>`).join('')}</div>
   `;
-  openSheet('sheetFiche');
+  document.getElementById('sheetFiche').classList.add('active');
 }
-function viewPhotoSwap(el, i){
-  const gallery = document.getElementById('ficheGallery');
-  const r = reports.find(x=> (x.photos||[]).length && el.closest('.sheet-body'));
-  gallery.querySelectorAll('.photo-view-thumbs .t').forEach(t=>t.classList.remove('sel'));
-  el.classList.add('sel');
-  const img = el.querySelector('img');
-  document.getElementById('ficheMainPhoto').src = img.src;
-}
-
 async function confirmReport(id, choice){
   if(myConfirmations[id]){ toast('Vous avez déjà répondu pour ce signalement.'); return; }
   const r = reports.find(x=>x.id===id);
@@ -1301,109 +908,105 @@ async function confirmReport(id, choice){
   myConfirmations[id] = choice;
   await updateReport(r);
   await saveMyConfirmations();
-  await addPoints('confirmation');
   openFiche(id);
-  toast('Merci pour votre confirmation. +' + POINTS_RULES.confirmation.pts + ' points de vigilance.');
+  toast('Merci pour votre confirmation.');
 }
 
-/* ===================== FICHE PROJET (lecture seule stricte) ===================== */
+/* ===================== FICHE PROJET ===================== */
 function openProjet(id){
   const p = projects.find(x=>x.id===id);
   if(!p) return;
-
-  const obsHtml = (p.observations||[]).slice().reverse().map(o=>{
-    const photosHtml = (o.photos && o.photos.length)
-      ? `<div class="photos-mini">${o.photos.map(src=>`<img src="${src}" onclick="Kengela.openLightbox(${JSON.stringify(o.photos).replace(/"/g,'&quot;')}, ${o.photos.indexOf(src)})">`).join('')}</div>`
-      : '';
-    return `<div class="tlitem"><div class="d">${o.date}</div><div class="l">${escapeHtml(o.comment)}</div>${photosHtml}</div>`;
-  }).join('') || '<div class="empty">Aucune observation pour le moment.</div>';
-
   document.getElementById('projetBody').innerHTML = `
-    <div class="fiche-id">CHANTIER ${p.id}${p.demo?' · donnée de démonstration':''}</div>
-    <div class="fiche-title">${escapeHtml(p.name)}</div>
+    <div class="fiche-id">PROJET ${p.id}${p.demo?' · donnée de démonstration':''}</div>
+    <div class="fiche-title">${p.name}</div>
     <div class="fiche-meta">
       <span class="badge" style="background:rgba(15,27,22,.08);color:var(--ink);">${p.type} — ${p.sub}</span>
       <span class="badge st-Signalé">${p.statut}</span>
     </div>
     <div class="bar-track"><div class="bar-fill" style="width:${p.avancement}%"></div></div>
-    <div class="proj-foot" style="margin-bottom:14px;"><span>${p.avancement}% avancé</span><span>${p.city||''}</span></div>
+    <div class="proj-foot" style="margin-bottom:14px;"><span>${p.avancement}% avancé</span><span>${p.city}</span></div>
 
-    <div class="reviewrow"><span>Maître d'ouvrage</span><b>${escapeHtml(p.maitre||'—')}</b></div>
-    <div class="reviewrow"><span>Entreprise</span><b>${escapeHtml(p.entreprise||'—')}</b></div>
-    <div class="reviewrow"><span>Début</span><b>${p.dateDebut||'—'}</b></div>
-    <div class="reviewrow"><span>Fin prévue</span><b>${p.dateFin||'—'}</b></div>
+    <div class="reviewrow"><span>Maître d'ouvrage</span><b>${p.maitre}</b></div>
+    <div class="reviewrow"><span>Entreprise</span><b>${p.entreprise}</b></div>
+    <div class="reviewrow"><span>Début</span><b>${p.dateDebut}</b></div>
+    <div class="reviewrow"><span>Fin prévue</span><b>${p.dateFin}</b></div>
     <div class="reviewrow"><span>Observations terrain</span><b>${(p.observations||[]).length}</b></div>
 
-    <button class="locatebtn" style="margin-top:16px;" onclick="Kengela.locate(${p.lat},${p.lng})">📍 Localiser précisément sur la carte</button>
-    <button class="ghostbtn" onclick="Kengela.toggleFollow('${p.id}')">${followed[p.id]?'⭐ Suivi — retirer':'☆ Suivre ce chantier'}</button>
+    <button class="bigbtn" style="margin-top:16px;" onclick="Kengela.startObservation('${p.id}')">📷 Observer ce chantier</button>
+    <button class="ghostbtn" onclick="Kengela.toggleFollow('${p.id}')">${followed[p.id]?'⭐ Suivi — retirer':'☆ Suivre ce projet'}</button>
 
-    <h4 style="margin:22px 0 8px;font-size:12px;text-transform:uppercase;color:var(--ink-soft);">Observations terrain (contributions citoyennes)</h4>
-    <div class="timeline">${obsHtml}</div>
-    <p style="font-size:11.5px;color:var(--ink-soft);margin-top:16px;">Cette fiche est en consultation uniquement. Pour ajouter une nouvelle observation avec photo, utilisez le bouton ⚠️ en bas de l'écran, puis choisissez « Observer un travail ».</p>
+    <h4 style="margin:22px 0 8px;font-size:12px;text-transform:uppercase;color:var(--ink-soft);">Observations terrain</h4>
+    <div class="timeline">${(p.observations||[]).slice().reverse().map(h=>`<div class="tlitem"><div class="d">${h.date}</div><div class="l">${escapeHtml(h.label)}</div></div>`).join('') || '<div class="empty">Aucune observation pour le moment.</div>'}</div>
   `;
-  openSheet('sheetProjet');
+  document.getElementById('sheetProjet').classList.add('active');
 }
-async function toggleFollow(id){
-  const wasFollowing = !!followed[id];
-  followed[id] = !wasFollowing;
-  await saveFollowed();
-  if(!wasFollowing) await addPoints('suivi_projet');
-  toast(followed[id] ? 'Chantier suivi — vous recevrez les mises à jour.' : 'Chantier retiré du suivi.');
+function toggleFollow(id){
+  followed[id] = !followed[id];
+  saveFollowed();
+  toast(followed[id] ? 'Projet suivi — vous recevrez les mises à jour.' : 'Projet retiré du suivi.');
   if(document.getElementById('sheetProjet').classList.contains('active')) openProjet(id);
+  renderProjList();
+}
+function startObservation(projectId){
+  signalerMode = 'flow';
+  cameFromProjectSheet = true;
+  draft = {kind:'travail', projectId, group:null, category:null, comment:'', photo:null, lat:null, lng:null};
+  step = 0;
+  document.getElementById('sheetProjet').classList.remove('active');
+  openSignalerFlow('travail-obs');
 }
 
-/* ===================== LIGHTBOX (zoom photo plein écran, lecture seule) ===================== */
-function openLightbox(photos, index){
-  lbPhotos = Array.isArray(photos) ? photos : [photos];
-  lbIndex = index || 0;
-  document.getElementById('lbImg').src = lbPhotos[lbIndex];
-  document.getElementById('lightbox').classList.add('active');
-}
-function lbShow(delta){
-  lbIndex = (lbIndex + delta + lbPhotos.length) % lbPhotos.length;
-  document.getElementById('lbImg').src = lbPhotos[lbIndex];
-}
-document.getElementById('lbClose').addEventListener('click', ()=>document.getElementById('lightbox').classList.remove('active'));
-document.getElementById('lightbox').addEventListener('click', (e)=>{ if(e.target.id==='lightbox') document.getElementById('lightbox').classList.remove('active'); });
-document.getElementById('lbPrev').addEventListener('click', ()=>lbShow(-1));
-document.getElementById('lbNext').addEventListener('click', ()=>lbShow(1));
-
-/* ===================== FLUX SIGNALER (création — seul endroit avec caméra/galerie) ===================== */
-function stepsForKind(kind){
-  return kind==='danger'
-    ? ['gps','photos','category','comment','links','gravity','review']
-    : ['project','gps','photos','category','comment','links','review'];
-}
+/* ===================== FLUX SIGNALER ===================== */
+let signalerMode = 'choice'; // 'choice' = écran de choix initial, 'flow' = étapes en cours
+let cameFromProjectSheet = false;
 
 function openSignalerChoice(){
   signalerMode = 'choice';
+  cameFromProjectSheet = false;
   document.getElementById('signalerHeadTitle').textContent = 'Que souhaitez-vous faire ?';
   document.getElementById('signalerProgress').innerHTML = '';
   document.getElementById('signalerBody').innerHTML = `
-    <p class="step-sub">Choisissez ce que vous observez. Des photos (jusqu'à 5), votre position et un commentaire suffisent.</p>
+    <p class="step-sub">Choisissez ce que vous observez. Une photo, votre position et un commentaire suffisent.</p>
     <button class="bigbtn" style="background:var(--g-elevee);color:#fff;margin-bottom:10px;" onclick="Kengela.beginFlow('danger')">⚠️ Signaler un danger</button>
     <button class="bigbtn" style="background:var(--river);color:#fff;" onclick="Kengela.beginFlow('travail')">🏗️ Observer un travail</button>
   `;
-  openSheet('sheetSignaler');
+  updateSignalerBackBtn();
+  document.getElementById('sheetSignaler').classList.add('active');
 }
 function beginFlow(kind){
   signalerMode = 'flow';
-  stepSequence = stepsForKind(kind);
-  draft = {kind, projectId:null, group:null, category:null, gravity:null, comment:'', photos:[], links:[], lat:null, lng:null};
+  draft = {kind, group:null, category:null, gravity:null, comment:'', photo:null, lat:null, lng:null};
   step = 0;
-  document.getElementById('signalerHeadTitle').textContent = kind==='danger' ? 'Signaler un danger' : 'Observer un travail';
-  renderStep();
+  openSignalerFlow(kind);
+}
+function updateSignalerBackBtn(){
+  const btn = document.getElementById('signalerBackBtn');
+  // Sur l'écran de choix initial (pas d'étape précédente), le bouton retour
+  // se comporte comme le bouton fermer.
+  btn.style.visibility = 'visible';
 }
 function signalerGoBack(){
   if(signalerMode==='choice'){ closeSheet('sheetSignaler'); return; }
-  if(step===0){ openSignalerChoice(); return; }
+  if(step===0){
+    if(cameFromProjectSheet){ closeSheet('sheetSignaler'); document.getElementById('sheetProjet').classList.add('active'); return; }
+    openSignalerChoice();
+    return;
+  }
   step--;
   renderStep();
 }
 document.getElementById('signalerBackBtn').addEventListener('click', signalerGoBack);
-
+function totalSteps(){
+  if(draft.kind==='danger') return 6;
+  return 4; // travail : gps -> photo -> categorie+commentaire -> envoyer
+}
+function openSignalerFlow(kind){
+  document.getElementById('signalerHeadTitle').textContent = draft.kind==='danger' ? 'Signaler un danger' : 'Observer un travail';
+  renderStep();
+  document.getElementById('sheetSignaler').classList.add('active');
+}
 function renderProgress(){
-  const n = stepSequence.length;
+  const n = totalSteps();
   let html='';
   for(let i=0;i<n;i++){ html += `<span class="${i<=step?'done':''}"></span>`; }
   document.getElementById('signalerProgress').innerHTML = html;
@@ -1411,69 +1014,162 @@ function renderProgress(){
 
 function renderStep(){
   renderProgress();
-  const name = stepSequence[step];
   const body = document.getElementById('signalerBody');
 
-  if(name==='project') return renderProjectStep(body);
-  if(name==='gps') return renderGpsStep(body);
-  if(name==='photos') return renderPhotosStep(body);
-  if(name==='category') return renderCategoryStep(body);
-  if(name==='comment') return renderCommentStep(body);
-  if(name==='links') return renderLinksStep(body);
-  if(name==='gravity') return renderGravityStep(body);
-  if(name==='review') return renderReviewStep(body);
-}
+  // ---- Étape 0 : GPS ----
+  if(step===0){
+    body.innerHTML = `
+      <div class="step-title">Votre position</div>
+      <div class="step-sub">Kengela récupère automatiquement votre position GPS. Aucune saisie manuelle n'est nécessaire.</div>
+      <div class="gpsbox" id="gpsBox">
+        <div class="ic">📍</div>
+        <div>
+          <div class="lat" id="gpsLat">Localisation en cours…</div>
+          <div class="lbl">Précision GPS affichée automatiquement</div>
+        </div>
+      </div>
+      <button class="bigbtn" id="gpsNext" disabled>Continuer</button>
+    `;
+    locate();
+    return;
+  }
 
-function goNext(){ step++; renderStep(); }
-
-/* ---- étape : choix du chantier (observation de travail uniquement) ---- */
-function renderProjectStep(body){
-  const options = [{id:null, name:'Observation générale (hors chantier précis)', c:'Non rattachée à un projet existant'}]
-    .concat(projects.map(p=>({id:p.id, name:p.name, c:`${p.city||''} · ${p.type} — ${p.sub}`})));
-  body.innerHTML = `
-    <div class="step-title">Quel chantier observez-vous ?</div>
-    <div class="step-sub">Rattachez votre observation à un chantier existant, ou laissez-la générale.</div>
-    <div id="projPickList">
-      ${options.map(o=>`<div class="projpick ${draft.projectId===o.id?'sel':''}" data-id="${o.id===null?'':o.id}"><div><div class="n">${escapeHtml(o.name)}</div><div class="c">${escapeHtml(o.c)}</div></div>${draft.projectId===o.id?'✓':''}</div>`).join('')}
-    </div>
-    <button class="bigbtn" id="projNext" style="margin-top:10px;">Continuer</button>
-  `;
-  body.querySelectorAll('.projpick').forEach(el=>{
-    el.addEventListener('click', ()=>{
-      draft.projectId = el.dataset.id || null;
+  // ---- Étape 1 : Photo ----
+  if(step===1){
+    body.innerHTML = `
+      <div class="step-title">Ajoutez une photo</div>
+      <div class="step-sub">La photo est obligatoire — elle documente ce que vous observez.</div>
+      <div class="photozone" id="photozone">
+        ${draft.photo ? `<img src="${draft.photo}">` : `<div class="icon">📷</div><div class="hint">Prendre une photo ou choisir dans la galerie</div>`}
+      </div>
+      ${draft.photo ? `<button class="ghostbtn" id="retakeBtn" style="margin-top:-6px;margin-bottom:14px;">↻ Reprendre la photo</button>` : `
+      <div style="display:flex;gap:10px;margin-bottom:14px;">
+        <label class="ghostbtn" style="margin-top:0;flex:1;text-align:center;cursor:pointer;">
+          📷 Appareil photo
+          <input type="file" accept="image/*" capture="environment" style="display:none" id="photoInputCamera">
+        </label>
+        <label class="ghostbtn" style="margin-top:0;flex:1;text-align:center;cursor:pointer;">
+          🖼️ Galerie
+          <input type="file" accept="image/*" style="display:none" id="photoInputGallery">
+        </label>
+      </div>`}
+      <button class="bigbtn" id="photoNext" ${draft.photo?'':'disabled'}>Continuer</button>
+    `;
+    const handlePick = async (e)=>{
+      const file = e.target.files[0];
+      if(!file) return;
+      toast('Traitement de la photo…');
+      draft.photo = await compressImage(file, 480);
       renderStep();
+    };
+    const camInput = document.getElementById('photoInputCamera');
+    const galInput = document.getElementById('photoInputGallery');
+    if(camInput) camInput.addEventListener('change', handlePick);
+    if(galInput) galInput.addEventListener('change', handlePick);
+    const retake = document.getElementById('retakeBtn');
+    if(retake) retake.addEventListener('click', ()=>{ draft.photo=null; renderStep(); });
+    document.getElementById('photoNext').addEventListener('click', ()=>{ step++; renderStep(); });
+    return;
+  }
+
+  // ---- Étape 2 : Catégorie ----
+  if(step===2){
+    const cats = draft.kind==='danger' ? DANGER_CATS : TRAVAUX_TYPES;
+    let html = `<div class="step-title">Catégorie</div><div class="step-sub">Choisissez ce qui décrit le mieux la situation.</div>`;
+    Object.entries(cats).forEach(([group, list])=>{
+      html += `<div class="catgroup"><h4>${group}</h4><div class="catgrid">`;
+      list.forEach(c=>{
+        const sel = (draft.group===group && draft.category===c) ? 'sel' : '';
+        html += `<button class="catbtn ${sel}" data-group="${group}" data-cat="${c}">${c}</button>`;
+      });
+      html += `</div></div>`;
     });
-  });
-  document.getElementById('projNext').addEventListener('click', goNext);
+    html += `<button class="bigbtn" id="catNext" ${draft.category?'':'disabled'}>Continuer</button>`;
+    body.innerHTML = html;
+    body.querySelectorAll('.catbtn').forEach(b=>{
+      b.addEventListener('click', ()=>{
+        draft.group = b.dataset.group; draft.category = b.dataset.cat;
+        renderStep();
+      });
+    });
+    const nextBtn = document.getElementById('catNext');
+    if(nextBtn) nextBtn.addEventListener('click', ()=>{ step++; renderStep(); });
+    return;
+  }
+
+  // ---- Étape 3 : Commentaire ----
+  if(step===3){
+    body.innerHTML = `
+      <div class="step-title">Que voyez-vous ?</div>
+      <div class="step-sub">Décrivez la situation en quelques mots.</div>
+      <textarea class="commentbox" id="commentInput" placeholder="Ex. : Une partie de la route s'est effondrée. Les véhicules doivent passer sur le côté.">${draft.comment||''}</textarea>
+      <button class="bigbtn" id="commentNext" style="margin-top:12px;" ${draft.comment&&draft.comment.trim()?'':'disabled'}>Continuer</button>
+    `;
+    const ta = document.getElementById('commentInput');
+    const nb = document.getElementById('commentNext');
+    ta.addEventListener('input', ()=>{ draft.comment = ta.value; nb.disabled = !ta.value.trim(); });
+    nb.addEventListener('click', ()=>{
+      draft.comment = ta.value;
+      if(draft.kind==='danger'){ step++; renderStep(); } else { submitDraft(); }
+    });
+    return;
+  }
+
+  // ---- Étape 4 (danger uniquement) : Gravité ----
+  if(step===4 && draft.kind==='danger'){
+    body.innerHTML = `
+      <div class="step-title">Niveau de gravité</div>
+      <div class="step-sub">Aide-nous à prioriser l'intervention.</div>
+      <div class="gravrow">
+        ${GRAVITY.map(g=>`<div class="gravopt ${draft.gravity===g.key?'sel':''}" data-g="${g.key}">
+            <div class="e">${g.emoji}</div>
+            <div><div class="t">${g.label}</div><div class="d">${g.desc}</div></div>
+          </div>`).join('')}
+      </div>
+      <button class="bigbtn" id="gravNext" style="margin-top:14px;" ${draft.gravity?'':'disabled'}>Continuer</button>
+    `;
+    body.querySelectorAll('.gravopt').forEach(el=>{
+      el.addEventListener('click', ()=>{ draft.gravity = el.dataset.g; renderStep(); });
+    });
+    const nb = document.getElementById('gravNext');
+    if(nb) nb.addEventListener('click', ()=>{ step++; renderStep(); });
+    return;
+  }
+
+  // ---- Étape finale : Récapitulatif ----
+  const finalStep = draft.kind==='danger' ? 5 : 3;
+  if(step===finalStep){
+    const g = GRAVITY.find(x=>x.key===draft.gravity);
+    body.innerHTML = `
+      <div class="step-title">Vérifiez avant l'envoi</div>
+      <img class="fiche-photo" src="${draft.photo}" style="height:150px;">
+      <div class="reviewrow"><span>Catégorie</span><b>${draft.category}</b></div>
+      ${draft.kind==='danger' ? `<div class="reviewrow"><span>Gravité</span><b>${g.emoji} ${g.label}</b></div>` : ''}
+      <div class="reviewrow"><span>Position</span><b>${draft.lat?draft.lat.toFixed(4)+', '+draft.lng.toFixed(4):'—'}</b></div>
+      <div class="reviewrow" style="border-bottom:none;flex-direction:column;align-items:flex-start;gap:4px;"><span>Commentaire</span><b style="font-weight:500;">${escapeHtml(draft.comment)}</b></div>
+      <button class="bigbtn" style="margin-top:16px;" id="sendBtn">Envoyer</button>
+    `;
+    document.getElementById('sendBtn').addEventListener('click', submitDraft);
+    return;
+  }
 }
 
-/* ---- étape : GPS ---- */
-function renderGpsStep(body){
-  body.innerHTML = `
-    <div class="step-title">Votre position</div>
-    <div class="step-sub">Kengela récupère automatiquement votre position GPS. Aucune saisie manuelle n'est nécessaire.</div>
-    <div class="gpsbox" id="gpsBox">
-      <div class="ic">📍</div>
-      <div><div class="lat" id="gpsLat">Localisation en cours…</div><div class="lbl">Précision GPS affichée automatiquement</div></div>
-    </div>
-    <button class="bigbtn" id="gpsNext" disabled>Continuer</button>
-  `;
-  locate_();
-}
-function locate_(){
+function locate(){
   if(!navigator.geolocation){
     draft.lat = userPos ? userPos.lat : CITIES[0].lat;
     draft.lng = userPos ? userPos.lng : CITIES[0].lng;
-    finishLocate(true);
+    finishLocate();
     return;
   }
   navigator.geolocation.getCurrentPosition(
     pos=>{
-      draft.lat = pos.coords.latitude; draft.lng = pos.coords.longitude; draft.accuracy = pos.coords.accuracy;
+      draft.lat = pos.coords.latitude; draft.lng = pos.coords.longitude;
+      draft.accuracy = pos.coords.accuracy;
       userPos = {lat:draft.lat, lng:draft.lng};
-      finishLocate(false);
+      finishLocate();
     },
-    ()=>{
+    err=>{
+      // fallback : position approximative (Kinshasa) si refusé/indisponible
       draft.lat = CITIES[0].lat + (Math.random()-0.5)*0.02;
       draft.lng = CITIES[0].lng + (Math.random()-0.5)*0.02;
       finishLocate(true);
@@ -1482,232 +1178,58 @@ function locate_(){
   );
 }
 function finishLocate(fallback){
-  const boxEl = document.getElementById('gpsLat');
+  const box = document.getElementById('gpsLat');
   const next = document.getElementById('gpsNext');
-  if(!boxEl) return;
-  boxEl.textContent = (fallback ? '≈ ' : '') + draft.lat.toFixed(5) + ', ' + draft.lng.toFixed(5) + (draft.accuracy?` (±${Math.round(draft.accuracy)} m)`:'');
+  if(!box) return;
+  box.textContent = (fallback ? '≈ ' : '') + draft.lat.toFixed(5) + ', ' + draft.lng.toFixed(5) + (draft.accuracy?` (±${Math.round(draft.accuracy)} m)`:'');
   next.disabled = false;
-  next.onclick = goNext;
+  next.onclick = ()=>{ step++; renderStep(); };
 }
 
-/* ---- étape : PHOTOS (zone d'ajout — création uniquement) ---- */
-function renderPhotosStep(body){
-  const photos = draft.photos || [];
-  const full = photos.length >= MAX_PHOTOS;
-  let grid = '';
-  if(photos.length>0){
-    grid = `<div class="photo-add-grid">${photos.map((src,i)=>`
-        <div class="photo-add-slot"><img src="${src}"><button class="rm" data-i="${i}">✕</button></div>
-      `).join('')}</div>
-      <div class="photo-counter">${photos.length} / ${MAX_PHOTOS} photos</div>`;
-  }else{
-    grid = `<div class="photo-add-empty"><div class="icon">📷</div><div class="hint">Prenez une photo ou choisissez-en dans la galerie (5 maximum)</div></div>`;
-  }
-  body.innerHTML = `
-    <div class="step-title">Ajoutez des photos</div>
-    <div class="step-sub">Au moins une photo est nécessaire — vous pouvez en ajouter jusqu'à ${MAX_PHOTOS}.</div>
-    ${grid}
-    <div class="photo-add-buttons">
-      <label class="${full?'disabled':''}">📷 Appareil photo<input type="file" accept="image/*" capture="environment" style="display:none" id="photoCam" ${full?'disabled':''}></label>
-      <label class="${full?'disabled':''}">🖼️ Galerie<input type="file" accept="image/*" multiple style="display:none" id="photoGal" ${full?'disabled':''}></label>
-    </div>
-    <button class="bigbtn" id="photoNext" ${photos.length>0?'':'disabled'}>Continuer</button>
-  `;
-  body.querySelectorAll('.rm').forEach(btn=>{
-    btn.addEventListener('click', ()=>{ draft.photos.splice(+btn.dataset.i,1); renderStep(); });
-  });
-  const handlePick = async (e)=>{
-    const files = Array.from(e.target.files || []);
-    if(!files.length) return;
-    for(const file of files){
-      if(draft.photos.length >= MAX_PHOTOS){ toast(`Maximum ${MAX_PHOTOS} photos.`); break; }
-      toast('Traitement de la photo…');
-      const compressed = await compressImage(file, 480);
-      draft.photos.push(compressed);
-    }
-    renderStep();
-  };
-  const cam = document.getElementById('photoCam'); if(cam) cam.addEventListener('change', handlePick);
-  const gal = document.getElementById('photoGal'); if(gal) gal.addEventListener('change', handlePick);
-  document.getElementById('photoNext').addEventListener('click', goNext);
-}
-
-/* ---- étape : catégorie ---- */
-function renderCategoryStep(body){
-  const cats = draft.kind==='danger' ? DANGER_CATS : TRAVAUX_TYPES;
-  let html = `<div class="step-title">Catégorie</div><div class="step-sub">Choisissez ce qui décrit le mieux la situation.</div>`;
-  Object.entries(cats).forEach(([group, list])=>{
-    html += `<div class="catgroup"><h4>${group}</h4><div class="catgrid">`;
-    list.forEach(c=>{
-      const sel = (draft.group===group && draft.category===c) ? 'sel' : '';
-      html += `<button class="catbtn ${sel}" data-group="${group}" data-cat="${c}">${c}</button>`;
-    });
-    html += `</div></div>`;
-  });
-  html += `<button class="bigbtn" id="catNext" ${draft.category?'':'disabled'}>Continuer</button>`;
-  body.innerHTML = html;
-  body.querySelectorAll('.catbtn').forEach(b=>{
-    b.addEventListener('click', ()=>{ draft.group=b.dataset.group; draft.category=b.dataset.cat; renderStep(); });
-  });
-  const nb = document.getElementById('catNext');
-  if(nb) nb.addEventListener('click', goNext);
-}
-
-/* ---- étape : commentaire ---- */
-function renderCommentStep(body){
-  body.innerHTML = `
-    <div class="step-title">Que voyez-vous ?</div>
-    <div class="step-sub">Décrivez la situation en quelques mots.</div>
-    <textarea class="commentbox" id="commentInput" placeholder="Ex. : Une partie de la route s'est effondrée. Les véhicules doivent passer sur le côté.">${draft.comment||''}</textarea>
-    <button class="bigbtn" id="commentNext" style="margin-top:12px;" ${draft.comment&&draft.comment.trim()?'':'disabled'}>Continuer</button>
-  `;
-  const ta = document.getElementById('commentInput');
-  const nb = document.getElementById('commentNext');
-  ta.addEventListener('input', ()=>{ draft.comment = ta.value; nb.disabled = !ta.value.trim(); });
-  nb.addEventListener('click', ()=>{ draft.comment = ta.value; goNext(); });
-}
-
-/* ---- étape : liens / sources (facultatif) ---- */
-function renderLinksStep(body){
-  const links = draft.links || [];
-  body.innerHTML = `
-    <div class="step-title">Sources et documents</div>
-    <div class="step-sub">Facultatif — ajoutez un article, un rapport, une vidéo ou tout document utile.</div>
-    <div class="links-list" id="linksList">
-      ${links.map((l,i)=>`<div class="link-row"><span class="ic">${guessLinkIcon(l.url)}</span>
-          <div class="info"><div class="lt">${escapeHtml(l.title)}</div><div class="lu">${escapeHtml(l.url)}</div></div>
-          <div class="actions"><button data-edit="${i}" title="Modifier">✎</button><button data-del="${i}" title="Supprimer">✕</button></div>
-        </div>`).join('')}
-    </div>
-    <div id="linkFormZone"></div>
-    <button class="linkbtn" id="addLinkBtn">+ Ajouter un lien</button>
-    <button class="bigbtn" id="linksNext" style="margin-top:14px;">Continuer</button>
-  `;
-  body.querySelectorAll('[data-del]').forEach(b=>b.addEventListener('click', ()=>{ draft.links.splice(+b.dataset.del,1); renderStep(); }));
-  body.querySelectorAll('[data-edit]').forEach(b=>b.addEventListener('click', ()=>{ showLinkForm(+b.dataset.edit); }));
-  document.getElementById('addLinkBtn').addEventListener('click', ()=>showLinkForm(null));
-  document.getElementById('linksNext').addEventListener('click', goNext);
-
-  function showLinkForm(editIndex){
-    const existing = editIndex!==null ? draft.links[editIndex] : {title:'', url:''};
-    const zone = document.getElementById('linkFormZone');
-    zone.innerHTML = `
-      <div class="link-form">
-        <label>Titre</label>
-        <input class="textinput" id="lfTitle" placeholder="Ex. Rapport de l'OVD" value="${escapeHtml(existing.title)}">
-        <label>URL</label>
-        <input class="textinput" id="lfUrl" placeholder="https://..." value="${escapeHtml(existing.url)}">
-        <div class="rowbtns">
-          <button class="ghostbtn" id="lfCancel" style="margin-top:0;">Annuler</button>
-          <button class="bigbtn" id="lfSave" style="margin-top:0;">Enregistrer</button>
-        </div>
-      </div>`;
-    document.getElementById('lfCancel').addEventListener('click', ()=>{ zone.innerHTML=''; });
-    document.getElementById('lfSave').addEventListener('click', ()=>{
-      const title = document.getElementById('lfTitle').value.trim() || 'Source';
-      const url = document.getElementById('lfUrl').value.trim();
-      if(!url){ toast('Merci de renseigner une URL.'); return; }
-      const entry = {title, url: normalizeUrl(url)};
-      if(editIndex!==null) draft.links[editIndex] = entry; else draft.links.push(entry);
-      renderStep();
-    });
-  }
-}
-
-/* ---- étape : gravité (danger uniquement) ---- */
-function renderGravityStep(body){
-  body.innerHTML = `
-    <div class="step-title">Niveau de gravité</div>
-    <div class="step-sub">Aide-nous à prioriser l'intervention.</div>
-    <div class="gravrow">
-      ${GRAVITY.map(g=>`<div class="gravopt ${draft.gravity===g.key?'sel':''}" data-g="${g.key}">
-          <div class="e">${g.emoji}</div><div><div class="t">${g.label}</div><div class="d">${g.desc}</div></div>
-        </div>`).join('')}
-    </div>
-    <button class="bigbtn" id="gravNext" style="margin-top:14px;" ${draft.gravity?'':'disabled'}>Continuer</button>
-  `;
-  body.querySelectorAll('.gravopt').forEach(el=>el.addEventListener('click', ()=>{ draft.gravity = el.dataset.g; renderStep(); }));
-  const nb = document.getElementById('gravNext');
-  if(nb) nb.addEventListener('click', goNext);
-}
-
-/* ---- étape finale : récapitulatif ---- */
-function renderReviewStep(body){
-  const g = GRAVITY.find(x=>x.key===draft.gravity);
-  const project = draft.projectId ? projects.find(p=>p.id===draft.projectId) : null;
-  body.innerHTML = `
-    <div class="step-title">Vérifiez avant l'envoi</div>
-    ${draft.photos.length ? `<div class="photo-add-grid" style="margin-top:10px;">${draft.photos.map(src=>`<div class="photo-add-slot"><img src="${src}"></div>`).join('')}</div>` : ''}
-    <div class="reviewrow"><span>Catégorie</span><b>${escapeHtml(draft.category)}</b></div>
-    ${draft.kind==='danger' ? `<div class="reviewrow"><span>Gravité</span><b>${g.emoji} ${g.label}</b></div>` : ''}
-    ${project ? `<div class="reviewrow"><span>Chantier</span><b>${escapeHtml(project.name)}</b></div>` : ''}
-    <div class="reviewrow"><span>Photos</span><b>${draft.photos.length} / ${MAX_PHOTOS}</b></div>
-    <div class="reviewrow"><span>Sources</span><b>${(draft.links||[]).length}</b></div>
-    <div class="reviewrow"><span>Position</span><b>${draft.lat?draft.lat.toFixed(4)+', '+draft.lng.toFixed(4):'—'}</b></div>
-    <div class="reviewrow" style="border-bottom:none;flex-direction:column;align-items:flex-start;gap:4px;"><span>Commentaire</span><b style="font-weight:500;">${escapeHtml(draft.comment)}</b></div>
-    <button class="bigbtn" style="margin-top:16px;" id="sendBtn">Envoyer</button>
-  `;
-  document.getElementById('sendBtn').addEventListener('click', submitDraft);
-}
-
-/* ---- envoi ---- */
 async function submitDraft(){
   if(!navigator.onLine){
-    offlineQueue.push({...draft});
+    offlineQueue.push(draft);
     toast(`${offlineQueue.length} observation(s) en attente de synchronisation.`);
     closeSheet('sheetSignaler');
     return;
   }
-
   if(draft.kind==='danger'){
-    const r = normalizeReport({
+    const r = {
       id: uid('KEN'), kind:'danger',
       group:draft.group, category:draft.category, gravity:draft.gravity,
-      comment:draft.comment, photos:draft.photos, links:draft.links,
-      lat:draft.lat, lng:draft.lng, date:new Date().toISOString(), status:'Signalé',
+      comment:draft.comment, photo:draft.photo, lat:draft.lat, lng:draft.lng,
+      date:new Date().toISOString(), status:'Signalé',
       confirmations:{oui:0,non:0,ne_sais_pas:0},
-      history:[{date:new Date().toISOString().slice(0,10), label:'Signalement citoyen.'}],
-      mine:true
-    });
+      history:[{date:new Date().toISOString().slice(0,10), label:'Signalement citoyen.'}]
+    };
+    r.mine = true;
     await saveReport(r);
     await markAsMine(r.id);
-    await addPoints('danger_signale');
-    if((draft.links||[]).length) for(let i=0;i<draft.links.length;i++) await addPoints('lien_ajoute');
-    renderFeed(); renderMap(); renderActualites();
-    closeSheet('sheetSignaler');
-    toast(`Signalement envoyé. +${POINTS_RULES.danger_signale.pts} points de vigilance.`);
-    locateOnMap(r.lat, r.lng);
+    renderFeed(); renderMap();
+    toast('Signalement envoyé. Merci pour votre vigilance.');
   } else {
-    const project = draft.projectId ? projects.find(p=>p.id===draft.projectId) : null;
-    const obs = {date:new Date().toISOString().slice(0,10), comment:draft.comment, photos:draft.photos};
+    const project = projects.find(p=>p.id===draft.projectId);
+    const obs = {date:new Date().toISOString().slice(0,10), label:draft.comment};
     if(project){
       project.observations = project.observations || [];
       project.observations.push(obs);
       await saveProject(project);
-      await addPoints('travail_observe');
-      renderActualites();
-      closeSheet('sheetSignaler');
-      toast(`Observation envoyée. +${POINTS_RULES.travail_observe.pts} points de vigilance.`);
-      locateOnMap(project.lat, project.lng);
+      renderProjList();
     } else {
-      const r = normalizeReport({
+      const r = {
         id: uid('OBS'), kind:'travail',
         group:draft.group, category:draft.category, gravity:null,
-        comment:draft.comment, photos:draft.photos, links:draft.links,
-        lat:draft.lat, lng:draft.lng, date:new Date().toISOString(), status:'Signalé',
+        comment:draft.comment, photo:draft.photo, lat:draft.lat, lng:draft.lng,
+        date:new Date().toISOString(), status:'Signalé',
         confirmations:{oui:0,non:0,ne_sais_pas:0},
-        history:[{date:new Date().toISOString().slice(0,10), label:'Observation citoyenne d\u2019un chantier.'}],
-        mine:true
-      });
+        history:[{date:new Date().toISOString().slice(0,10), label:'Observation citoyenne d\u2019un chantier.'}]
+      };
       await saveReport(r);
-      await markAsMine(r.id);
-      await addPoints('travail_observe');
-      renderFeed(); renderMap(); renderActualites();
-      closeSheet('sheetSignaler');
-      toast(`Observation envoyée. +${POINTS_RULES.travail_observe.pts} points de vigilance.`);
-      locateOnMap(r.lat, r.lng);
+      renderFeed(); renderMap();
     }
+    toast('Observation envoyée. Merci !');
   }
+  closeSheet('sheetSignaler');
 }
 
 /* ===================== AUTOUR DE MOI ===================== */
@@ -1725,60 +1247,38 @@ function renderAround(){
     summary.innerHTML = '';
     feed.innerHTML = `<div class="empty">Activation de la localisation…<br>Autorisez l'accès pour voir ce qui se passe autour de vous.</div>`;
     if(navigator.geolocation){
-      navigator.geolocation.getCurrentPosition(pos=>{ userPos = {lat:pos.coords.latitude, lng:pos.coords.longitude}; renderAround(); },
-        ()=>{ userPos = {lat:CITIES[0].lat, lng:CITIES[0].lng}; renderAround(); });
+      navigator.geolocation.getCurrentPosition(pos=>{
+        userPos = {lat:pos.coords.latitude, lng:pos.coords.longitude};
+        renderAround();
+      }, ()=>{
+        userPos = {lat:CITIES[0].lat, lng:CITIES[0].lng};
+        renderAround();
+      });
     }
     return;
   }
   const nearDangers = reports.filter(r=>haversine(userPos.lat,userPos.lng,r.lat,r.lng)<=radiusKm);
   const nearTravaux = projects.filter(p=>haversine(userPos.lat,userPos.lng,p.lat,p.lng)<=radiusKm);
   summary.innerHTML = `
-    <div class="box"><div class="n">${nearDangers.length}</div><div class="l">Signalements</div></div>
-    <div class="box"><div class="n">${nearTravaux.length}</div><div class="l">Chantiers</div></div>
+    <div class="box"><div class="n">${nearDangers.length}</div><div class="l">Dangers</div></div>
+    <div class="box"><div class="n">${nearTravaux.length}</div><div class="l">Travaux</div></div>
     <div class="box"><div class="n">${nearDangers.length+nearTravaux.length}</div><div class="l">Total</div></div>
   `;
   const items = [
     ...nearDangers.map(r=>({dist:haversine(userPos.lat,userPos.lng,r.lat,r.lng), html:reportCard(r)})),
-    ...nearTravaux.map(p=>({dist:haversine(userPos.lat,userPos.lng,p.lat,p.lng), html:projCard(p)}))
+    ...nearTravaux.map(p=>({dist:haversine(userPos.lat,userPos.lng,p.lat,p.lng), html:projCardMini(p)}))
   ].sort((a,b)=>a.dist-b.dist);
   feed.innerHTML = items.length ? items.map(i=>i.html).join('') : `<div class="empty">Rien signalé dans un rayon de ${radiusKm} km.</div>`;
 }
-
-/* ===================== PROFIL / POINTS DE VIGILANCE ===================== */
-function openProfil(){
-  const mine = reports.filter(r=>r.mine).length;
-  const followedCount = Object.values(followed).filter(Boolean).length;
-  const {current, next} = gradeForPoints(myPoints.total);
-  const span = next ? (next.min - current.min) : 1;
-  const progress = next ? Math.min(100, Math.round(((myPoints.total - current.min) / span) * 100)) : 100;
-
-  document.getElementById('profilBody').innerHTML = `
-    <div class="grade-card">
-      <div class="top">
-        <div class="emoji">${current.emoji}</div>
-        <div><div class="name">${current.label}</div><div class="pts">${myPoints.total} points de vigilance</div></div>
-      </div>
-      <div class="grade-bar-track"><div class="grade-bar-fill" style="width:${progress}%"></div></div>
-      <div class="grade-next">${next ? `${next.min - myPoints.total} points avant « ${next.label} » ${next.emoji}` : 'Grade maximum atteint — merci pour votre engagement !'}</div>
+function projCardMini(p){
+  return `<div class="card" onclick="Kengela.openProjet('${p.id}')">
+    <img class="thumb" src="${PLACEHOLDER_IMG}">
+    <div class="body">
+      <div class="row1"><div class="cat">${p.name}</div><div class="grav">🏗️</div></div>
+      <div class="meta">${p.id} · ${p.city}</div>
+      <div class="comment">${p.type} — ${p.sub} · ${p.avancement}% avancé</div>
     </div>
-    <div class="around-summary" style="padding:0 0 18px;">
-      <div class="box" style="background:rgba(15,27,22,.05);"><div class="n" style="color:var(--ink);">${mine}</div><div class="l">Mes signalements</div></div>
-      <div class="box" style="background:rgba(15,27,22,.05);"><div class="n" style="color:var(--ink);">${followedCount}</div><div class="l">Chantiers suivis</div></div>
-      <div class="box" style="background:rgba(15,27,22,.05);"><div class="n" style="color:var(--ink);">${reports.length}</div><div class="l">Total plateforme</div></div>
-    </div>
-    <h4 style="font-size:12px;text-transform:uppercase;color:var(--ink-soft);margin:0 0 6px;">Derniers points gagnés</h4>
-    <div class="points-log">
-      ${myPoints.log.slice(0,8).map(l=>`<div class="points-log-row"><span class="pl">${escapeHtml(l.label)}</span><span class="pv">+${l.pts}</span></div>`).join('') || '<div class="empty">Contribuez pour gagner vos premiers points.</div>'}
-    </div>
-    <h4 style="font-size:12px;text-transform:uppercase;color:var(--ink-soft);margin:20px 0 10px;">Mes signalements</h4>
-    <div style="margin:0 -18px;">
-      ${reports.filter(r=>r.mine).length ? reports.filter(r=>r.mine).map(reportCard).join('') : '<div class="empty">Vous n\u2019avez pas encore contribué. Touchez ⚠️ pour signaler votre premier danger.</div>'}
-    </div>
-    <div style="height:8px;"></div>
-    <button class="ghostbtn" data-close>Fermer</button>
-  `;
-  document.querySelectorAll('#sheetProfil [data-close]').forEach(b=>b.addEventListener('click', ()=>closeSheet('sheetProfil')));
-  openSheet('sheetProfil');
+  </div>`;
 }
 
 /* ===================== NAVIGATION ===================== */
@@ -1787,18 +1287,22 @@ function showTab(tab){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   document.getElementById('view-'+tab).classList.add('active');
   document.querySelectorAll('.navbtn').forEach(b=>b.classList.toggle('active', b.dataset.tab===tab));
+  if(tab==='travaux') renderProjList();
   if(tab==='autour') renderAround();
-  if(tab==='actualites') renderActualites();
   if(tab==='carte') setTimeout(()=>map && map.invalidateSize(), 50);
 }
 document.querySelectorAll('.navbtn').forEach(b=>b.addEventListener('click', ()=>showTab(b.dataset.tab)));
 document.getElementById('btnSignaler').addEventListener('click', openSignalerChoice);
 document.getElementById('btnProfil').addEventListener('click', openProfil);
 
-document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click', ()=>closeAllSheets()));
+/* fermeture : bouton ✕, bouton retour (←), et clic sur le fond du panneau */
+document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click', ()=>closeSheet(b.dataset.close)));
 document.querySelectorAll('.sheet-overlay').forEach(ov=>{
-  ov.addEventListener('click', (e)=>{ if(e.target===ov) closeAllSheets(); });
+  ov.addEventListener('click', (e)=>{ if(e.target===ov) closeSheet(ov.id); });
 });
+function closeSheet(id){ document.getElementById(id).classList.remove('active'); }
+
+/* glisser vers le bas pour fermer (retour tactile naturel sur mobile) */
 document.querySelectorAll('.sheet').forEach(sheet=>{
   let startY=null, currentY=0, dragging=false;
   const handle = sheet.querySelector('.drag-handle') || sheet;
@@ -1810,12 +1314,14 @@ document.querySelectorAll('.sheet').forEach(sheet=>{
   }, {passive:true});
   handle.addEventListener('touchend', ()=>{
     dragging=false; sheet.style.transition='';
-    if(currentY > 110){ closeAllSheets(); }
-    sheet.style.transform=''; currentY=0;
+    if(currentY > 110){ closeSheet(sheet.closest('.sheet-overlay').id); }
+    sheet.style.transform='';
+    currentY=0;
   });
 });
 
 /* ===================== RECHERCHE ===================== */
+let searchQuery = '';
 const searchInput = document.getElementById('searchInput');
 const searchbarEl = document.getElementById('searchbar');
 searchInput.addEventListener('input', ()=>{
@@ -1827,12 +1333,43 @@ document.getElementById('searchClear').addEventListener('click', ()=>{
   searchInput.value=''; searchQuery=''; searchbarEl.classList.remove('has-text'); renderFeed();
 });
 
-/* ===================== RÉSEAU (mode hors connexion) ===================== */
+/* ===================== PROFIL ===================== */
+function openProfil(){
+  const mine = reports.filter(r=>r.mine).length;
+  const followedCount = Object.values(followed).filter(Boolean).length;
+  document.getElementById('profilBody').innerHTML = `
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:20px;">
+      <div style="width:52px;height:52px;border-radius:50%;background:var(--clay);display:flex;align-items:center;justify-content:center;font-size:22px;color:#1a1005;font-weight:900;">👤</div>
+      <div>
+        <div style="font-weight:800;font-size:15px;">Citoyen Kengela</div>
+        <div style="font-size:12px;color:var(--ink-soft);">Compte anonyme · démonstration</div>
+      </div>
+    </div>
+    <div class="around-summary" style="padding:0 0 18px;">
+      <div class="box" style="background:rgba(15,27,22,.05);"><div class="n" style="color:var(--ink);">${mine}</div><div class="l">Mes signalements</div></div>
+      <div class="box" style="background:rgba(15,27,22,.05);"><div class="n" style="color:var(--ink);">${followedCount}</div><div class="l">Projets suivis</div></div>
+      <div class="box" style="background:rgba(15,27,22,.05);"><div class="n" style="color:var(--ink);">${reports.length}</div><div class="l">Total plateforme</div></div>
+    </div>
+    <h4 style="font-size:12px;text-transform:uppercase;color:var(--ink-soft);margin:0 0 10px;">Mes signalements</h4>
+    <div style="margin:0 -18px;">
+      ${reports.filter(r=>r.mine).length ? reports.filter(r=>r.mine).map(reportCard).join('') : '<div class="empty">Vous n\u2019avez pas encore contribué. Touchez ⚠️ pour signaler votre premier danger.</div>'}
+    </div>
+    <div style="height:8px;"></div>
+    <button class="ghostbtn" onclick="Kengela.closeSheet('sheetProfil')">Fermer</button>
+  `;
+  document.getElementById('sheetProfil').classList.add('active');
+}
+
+/* ===================== RÉSEAU (mode hors connexion, §24) ===================== */
 function updateNetStatus(){
   const pill = document.getElementById('netPill');
   const lbl = document.getElementById('netLbl');
-  if(navigator.onLine){ pill.classList.remove('off'); lbl.textContent = 'En ligne'; flushOfflineQueue(); }
-  else{ pill.classList.add('off'); lbl.textContent = 'Hors connexion'; }
+  if(navigator.onLine){
+    pill.classList.remove('off'); lbl.textContent = 'En ligne';
+    flushOfflineQueue();
+  } else {
+    pill.classList.add('off'); lbl.textContent = 'Hors connexion';
+  }
 }
 async function flushOfflineQueue(){
   if(offlineQueue.length===0) return;
@@ -1843,19 +1380,16 @@ async function flushOfflineQueue(){
 window.addEventListener('online', updateNetStatus);
 window.addEventListener('offline', updateNetStatus);
 
-/* ===================== API GLOBALE (utilisée par les attributs onclick) ===================== */
-window.Kengela = {
-  openFiche, openProjet, toggleFollow, confirm:confirmReport,
-  beginFlow, closeSheet, closeAllSheets,
-  locate: locateOnMap,
-  openLightbox, viewPhotoSwap
-};
-
 /* ===================== INIT ===================== */
+window.Kengela = { openFiche, openProjet, toggleFollow, confirm:confirmReport, startObservation, beginFlow, closeSheet };
+
 (async function init(){
   const splash = document.getElementById('splash');
   const splashMsg = document.getElementById('splashMsg');
-  const minSplashDuration = new Promise(r=>setTimeout(r, 900));
+  const minSplashDuration = new Promise(r=>setTimeout(r, 900)); // laisse le temps de voir l'animation, même sur un chargement rapide
+
+  // Filet de sécurité : quoi qu'il arrive, l'écran de démarrage disparaît
+  // au bout de 6 secondes maximum — jamais de blocage indéfini.
   const hardTimeout = setTimeout(()=>{
     splash.classList.add('hidden');
     setTimeout(()=>{ splash.style.display='none'; map && map.invalidateSize(); }, 550);
@@ -1867,10 +1401,12 @@ window.Kengela = {
     await loadAll();
     if(splashMsg) splashMsg.textContent = 'Mise en place de la carte…';
     renderFeed();
-    renderActualites();
+    renderProjList();
     renderMap();
     if(navigator.geolocation){
-      navigator.geolocation.getCurrentPosition(pos=>{ userPos = {lat:pos.coords.latitude, lng:pos.coords.longitude}; }, ()=>{});
+      navigator.geolocation.getCurrentPosition(pos=>{
+        userPos = {lat:pos.coords.latitude, lng:pos.coords.longitude};
+      }, ()=>{});
     }
   }catch(err){
     console.error('Kengela — erreur au démarrage :', err);
